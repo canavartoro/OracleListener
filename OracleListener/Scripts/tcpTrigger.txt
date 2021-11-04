@@ -1,0 +1,45 @@
+create or replace TRIGGER "PRODDTA"."PRINTBARKODTCP_F554110" 
+AFTER INSERT OR UPDATE
+    ON PRODDTA.F554110
+    FOR EACH ROW  
+DECLARE     
+     ipval varchar(20);
+     sentFlag char;
+     c  utl_tcp.connection;  -- TCP/IP connection to the Web server
+     ret_val pls_integer; 
+    PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+
+    ipval:='10.0.0.43';
+    --ipval:='10.0.2.175';
+    commit;      
+
+IF :new.HYEV01='0' and :new.HYKY in ('YZC001    ','YZC002    ','YZC003    ','YZC004    ','YZC005    ','YZC010    ')  THEN
+IF UPDATING AND :old.HYEV01<>'0'   THEN
+    sentFlag := '1';
+     commit;
+ELSE
+    sentFlag := '1';
+     commit;
+END IF;
+END IF;
+
+ 
+ IF   sentFlag = '1'  THEN       
+    BEGIN
+      c := utl_tcp.open_connection(remote_host => ipval, remote_port =>  13000, charset     => 'US7ASCII');                                                 
+      ret_val := utl_tcp.write_line(c, rtrim(:new.HYUKID)||','||rtrim(:new.HYEV03));    -- send HTTP request
+      ret_val := utl_tcp.write_line(c);    
+      utl_tcp.close_connection(c);
+      commit;
+   EXCEPTION 
+     WHEN others then 
+      --dbms_output.put_line(SYS.STANDARD.SQLERRM);
+     --insert into ETKLOG (ID1,DESC1,ETK) values (ETKSEQ1.nextval,
+       --                                         SYS.STANDARD.SQLERRM,
+         --                                       rtrim(:new.HYUKID)||'-'||rtrim(:new.HYEV03));
+     commit;
+END;            
+END IF;
+
+END;

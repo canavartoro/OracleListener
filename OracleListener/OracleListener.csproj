@@ -98,6 +98,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Oracle_TCP_setupOnly.txt" />
+    <Content Include="Scripts\tcpTrigger.txt" />
     <EmbeddedResource Include="build.txt" />
     <Content Include="favicon.ico" />
   </ItemGroup>

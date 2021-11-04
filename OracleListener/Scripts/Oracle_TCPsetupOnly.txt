@@ -1,0 +1,48 @@
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'test_acl_file.xml', 
+    description  => 'A test of the ACL functionality',
+    principal    => 'PRODDTA',
+    is_grant     => TRUE, 
+    privilege    => 'connect',
+    start_date   => SYSTIMESTAMP,
+    end_date     => NULL);
+
+  COMMIT;
+END;
+
+
+BEGIN
+ 
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'test_acl_file.xml',
+    host        => '192.168.16.*', 
+    lower_port  => NULL,
+    upper_port  => NULL);
+
+  COMMIT;
+END;
+
+grant  execute on UTL_TCP to PRODDTA;
+
+grant  execute on UTL_SMTP to PRODDTA;
+
+grant  execute on UTL_MAIL to PRODDTA;
+
+grant  execute on UTL_HTTP to PRODDTA;
+
+grant  execute on UTL_INADDR to PRODDTA;
+
+--sample
+DECLARE
+  c  utl_tcp.connection;  -- TCP/IP connection to the Web server
+  ret_val pls_integer; 
+BEGIN
+  c := utl_tcp.open_connection(remote_host => '192.168.100.242',
+                               remote_port =>  13000,
+                               charset     => 'US7ASCII');  -- open connection
+  ret_val := utl_tcp.write_line(c, 'test ediliyor etiket bas');    -- send HTTP request
+   UTL_TCP.flush (c);
+  
+  utl_tcp.close_connection(c);
+END;
