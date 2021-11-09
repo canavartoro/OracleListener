@@ -79,6 +79,8 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.textCreateUserId = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.textCreateUser = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -184,7 +186,7 @@
             // 
             this.stokKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("stokKartlarıAktarToolStripMenuItem.Image")));
             this.stokKartlarıAktarToolStripMenuItem.Name = "stokKartlarıAktarToolStripMenuItem";
-            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.stokKartlarıAktarToolStripMenuItem.Text = "Stok Kartları Aktar";
             this.stokKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.stokKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -192,7 +194,7 @@
             // 
             this.depoKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("depoKartlarıAktarToolStripMenuItem.Image")));
             this.depoKartlarıAktarToolStripMenuItem.Name = "depoKartlarıAktarToolStripMenuItem";
-            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.depoKartlarıAktarToolStripMenuItem.Text = "Depo Kartları Aktar";
             this.depoKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.depoKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -245,6 +247,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.textCreateUser);
+            this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.textCreateUserId);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.listView1);
@@ -594,6 +598,22 @@
             this.label11.TabIndex = 29;
             this.label11.Text = "Kullanıcı Kodu";
             // 
+            // textCreateUser
+            // 
+            this.textCreateUser.Location = new System.Drawing.Point(112, 202);
+            this.textCreateUser.Name = "textCreateUser";
+            this.textCreateUser.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUser.TabIndex = 32;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(12, 205);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(84, 17);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "Kullanıcı Adı";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -679,6 +699,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.TextBox textCreateUserId;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textCreateUser;
+        private System.Windows.Forms.Label label14;
     }
 }
 

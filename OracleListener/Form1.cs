@@ -149,6 +149,7 @@ ORDER BY WH.WHOUSE_CODE");
             numBranchId.Value = AppConfig.Default.BranchId;
             checkOtostart.Checked = AppConfig.Default.Otostart;
             textCreateUserId.Text = AppConfig.Default.CreateUserId;
+            textCreateUser.Text = AppConfig.Default.CreateUser;
             this.Text = string.Concat(Text, " V:", Program.Versiyon, " B:", Program.BuildNumber());
             lblStatu.Text = DateTime.Now.ToString();
             if (!string.IsNullOrWhiteSpace(AppConfig.Default.OracleHost) &&
@@ -278,6 +279,7 @@ ORDER BY WH.WHOUSE_CODE");
                 AppConfig.Default.BranchId = Convert.ToInt32(numBranchId.Value);
                 AppConfig.Default.Otostart = checkOtostart.Checked;
                 AppConfig.Default.CreateUserId = textCreateUserId.Text;
+                AppConfig.Default.CreateUser = textCreateUser.Text;
                 AppConfig.Default.Save();
 
             }

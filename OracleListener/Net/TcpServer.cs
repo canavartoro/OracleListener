@@ -127,6 +127,10 @@ namespace OracleListener.Net
                     {
                         data.StokSynchronization(receivedata.Name);
                     }
+                    else if (receivedata.Command == TcpClient.COMMAND_DEPO)
+                    {
+                        data.DepoSynchronization(receivedata.Name);
+                    }
                 }
             }
             catch (Exception exc)

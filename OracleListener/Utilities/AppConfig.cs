@@ -80,8 +80,11 @@ namespace OracleListener.Utilities
         [XmlElement("BASLAT")]
         public bool Otostart { get; set; } = false;
 
-        [XmlElement("USER_CODE")]
+        [XmlElement("USER_ID")]
         public string CreateUserId { get; set; } = "77384016-921F-472F-B56D-1D563B7DDF3C";
+
+        [XmlElement("USER_CODE")]
+        public string CreateUser { get; set; } = "ERP1";
 
         public string GetOracleConnectionString()
         {
