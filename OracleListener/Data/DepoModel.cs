@@ -14,8 +14,16 @@ namespace OracleListener.Data
         [System.ComponentModel.Description("DE_No")]
         public int WHOUSE_ID { get; set; }
 
+        private string wHOUSE_CODE = null;
         [System.ComponentModel.Description("DE_Code")]
-        public string WHOUSE_CODE { get; set; }
+        public string WHOUSE_CODE
+        {
+            get
+            {
+                return wHOUSE_CODE?.Replace(" ", "");
+            }
+            set { wHOUSE_CODE = value; }
+        }
 
         [System.ComponentModel.Description("DE_Intitule")]
         public string WHOUSE_DESC { get; set; }
@@ -68,6 +76,6 @@ namespace OracleListener.Data
 
         [System.ComponentModel.Description("DE_Telecopie")]
         public string PHONE2 { get; set; }
-        
+
     }
 }

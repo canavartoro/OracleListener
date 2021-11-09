@@ -330,6 +330,7 @@ ORDER BY WH.WHOUSE_CODE");
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 using (var data = new DataSynchronization())
                 {
                     data.DepoSynchronization();
@@ -338,6 +339,10 @@ ORDER BY WH.WHOUSE_CODE");
             catch (Exception ex)
             {
                 Logger.E(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
             }
 
             //using (var syncQueue = new RabbitMQManager(1))

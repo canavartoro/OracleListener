@@ -27,6 +27,7 @@ namespace OracleListener.Data
             string condition = string.Empty;
             if (!string.IsNullOrWhiteSpace(depo))
                 condition = $" AND WH.WHOUSE_ID = '{depo}' ";
+
             var depolist = Select<DepoModel>($@"SELECT WH.WHOUSE_ID,WH.WHOUSE_CODE,WH.DESCRIPTION WHOUSE_DESC,WH.ISPASSIVE,WH.ISNEGATIVE,WH.ENTITY_ID,WH.CREATE_DATE,WH.UPDATE_DATE,
 BW.TEL1,BW.EMAIL,BW.ADDRESS1,BW.ADDRESS2,BW.ADDRESS3,CT.CITY_NAME,TW.TOWN_NAME,CN.COUNTRY_NAME 
 FROM INVD_WHOUSE WH INNER JOIN 
