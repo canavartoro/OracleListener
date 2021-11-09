@@ -24,9 +24,9 @@
 *.sdf
 *.pyc
 *.xml
+*.log
 ipch/
 obj/
-log/
 platforms/
 node_modules/
 [Bb]in

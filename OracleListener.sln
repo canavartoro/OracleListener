@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1525
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OracleListener", "OracleListener\OracleListener.csproj", "{B1D3D1BA-B85C-46FC-AC01-DBD251AE2685}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OracleQueueService", "OracleQueueService\OracleQueueService.csproj", "{66C02DDA-2923-417F-BDBB-D3E05ACED9D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B1D3D1BA-B85C-46FC-AC01-DBD251AE2685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1D3D1BA-B85C-46FC-AC01-DBD251AE2685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1D3D1BA-B85C-46FC-AC01-DBD251AE2685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66C02DDA-2923-417F-BDBB-D3E05ACED9D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66C02DDA-2923-417F-BDBB-D3E05ACED9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66C02DDA-2923-417F-BDBB-D3E05ACED9D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66C02DDA-2923-417F-BDBB-D3E05ACED9D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using OracleListener.Log;
+﻿using OracleListener.Data;
+using OracleListener.Log;
 using OracleListener.Utilities;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,46 @@ namespace OracleListener
             //Process.GetCurrentProcess().Kill();
         }
 
+        private void GetDepoList()
+        {
+            Task.Run(() =>
+            {
+                List<DepoModel> depots = null;
+                string depotlist = FileHelper.ReadFile("depots.xml");
+                if (!string.IsNullOrEmpty(depotlist))
+                {
+                    depots = FileHelper.FromXml(depotlist, typeof(List<DepoModel>)) as List<DepoModel>;
+                }
+                else
+                {
+                    using (OracleProvider db = new OracleProvider())
+                    {
+                        depots = db.Select<DepoModel>($@"SELECT WH.WHOUSE_ID,WH.WHOUSE_CODE,WH.DESCRIPTION WHOUSE_DESC,WH.ISPASSIVE,WH.ISNEGATIVE,WH.ENTITY_ID,WH.CREATE_DATE,WH.UPDATE_DATE 
+FROM INVD_WHOUSE WH INNER JOIN INVD_BRANCH_WHOUSE BW ON WH.WHOUSE_ID = BW.WHOUSE_ID
+WHERE BW.BRANCH_ID = {AppConfig.Default.BranchId}
+ORDER BY WH.WHOUSE_CODE");
+                        FileHelper.SaveFile("depots.xml", FileHelper.ToXml(depots));
+                    }
+                }
+                if (depots != null)
+                {
+                    listView1.Invoke(new Action(() =>
+                    {
+                        for (int i = 0; i < depots.Count; i++)
+                        {
+                            ListViewItem item = new ListViewItem();
+                            item.Text = $@"{depots[i].WHOUSE_CODE} {depots[i].WHOUSE_DESC}";
+                            item.Tag = depots[i];
+                            item.Checked = depots[i].SELECTED;
+                            listView1.Items.Add(item);
+                        }
+                        Application.DoEvents();
+                    }));
+                }
+
+            });
+        }
+
         private void Oraserv_Receved(object sender, Net.TcpClient e)
         {
             //Task.Run(() => LoadData());
@@ -104,18 +145,30 @@ namespace OracleListener
             textSqlUser.Text = AppConfig.Default.SqlUserId;
             textSqlPassword.Text = AppConfig.Default.GetSqlPassword();
             comboTrace.SelectedIndex = AppConfig.Default.TraceLevel;
+            numCoId.Value = AppConfig.Default.CoId;
+            numBranchId.Value = AppConfig.Default.BranchId;
+            checkOtostart.Checked = AppConfig.Default.Otostart;
+            textCreateUserId.Text = AppConfig.Default.CreateUserId;
             this.Text = string.Concat(Text, " V:", Program.Versiyon, " B:", Program.BuildNumber());
             lblStatu.Text = DateTime.Now.ToString();
             if (!string.IsNullOrWhiteSpace(AppConfig.Default.OracleHost) &&
                 !string.IsNullOrWhiteSpace(AppConfig.Default.SqlHost))
             {
-
+                if (AppConfig.Default.Otostart)
+                    btnbaslat_Click(btnbaslat, EventArgs.Empty);
+                else
+                    btnbaslat.Enabled = true;
             }
+            else
+            {
+                btnbaslat.Enabled = false;
+            }
+            GetDepoList();
         }
 
         private void btnlogac_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("Explorer.exe", $"/select,\"{Application.StartupPath}\\app_trace.txt\"");
+            System.Diagnostics.Process.Start("Explorer.exe", $"/select,\"{Application.StartupPath}\\app_trace.log\"");
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
@@ -203,6 +256,12 @@ namespace OracleListener
                     error = true;
                 }
 
+                if (string.IsNullOrWhiteSpace(textCreateUserId.Text))
+                {
+                    errorProvider1.SetError(textCreateUserId, "Oluşturan Kullanıcı bilgisi boş bırakılamaz!");
+                    error = true;
+                }
+
                 if (error) return;
 
                 AppConfig.Default.TcpPort = Convert.ToInt32(numTcpPort.Value);
@@ -215,6 +274,10 @@ namespace OracleListener
                 AppConfig.Default.SqlUserId = textSqlUser.Text;
                 AppConfig.Default.SetSqlPassword(textSqlPassword.Text);
                 AppConfig.Default.TraceLevel = comboTrace.SelectedIndex;
+                AppConfig.Default.CoId = Convert.ToInt32(numCoId.Value);
+                AppConfig.Default.BranchId = Convert.ToInt32(numBranchId.Value);
+                AppConfig.Default.Otostart = checkOtostart.Checked;
+                AppConfig.Default.CreateUserId = textCreateUserId.Text;
                 AppConfig.Default.Save();
 
             }
@@ -232,6 +295,84 @@ namespace OracleListener
         private void btndurdur_Click(object sender, EventArgs e)
         {
             StopServer();
+        }
+
+        private void btnlogtemizle_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = "";
+        }
+
+        private void cariKartlarıAktarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var syncQueue = new RabbitMQManager(1))
+            {
+                DataSynchronizationModel synchronizationobj = new DataSynchronizationModel();
+                synchronizationobj.Argument = "";
+                synchronizationobj.Name = "CARI";
+                syncQueue.Publish(synchronizationobj);
+            }
+        }
+
+        private void stokKartlarıAktarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var syncQueue = new RabbitMQManager(1))
+            {
+                DataSynchronizationModel synchronizationobj = new DataSynchronizationModel();
+                synchronizationobj.Argument = "";
+                synchronizationobj.Name = "STOK";
+                syncQueue.Publish(synchronizationobj);
+            }
+        }
+
+        private void depoKartlarıAktarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var data = new DataSynchronization())
+                {
+                    data.DepoSynchronization();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.E(ex);
+            }
+
+            //using (var syncQueue = new RabbitMQManager(1))
+            //{
+            //    DataSynchronizationModel synchronizationobj = new DataSynchronizationModel();
+            //    synchronizationobj.Argument = "";
+            //    synchronizationobj.Name = "DEPO";
+            //    syncQueue.Publish(synchronizationobj);
+            //}
+        }
+
+        private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            try
+            {
+                FileHelper.DeleteFile("depots.xml");
+                List<DepoModel> depots = new List<DepoModel>();
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    DepoModel depo = listView1.Items[i].Tag as DepoModel;
+                    depo.SELECTED = listView1.Items[i].Checked;
+                    depots.Add(depo);
+                }
+                FileHelper.SaveFile("depots.xml", FileHelper.ToXml(depots));
+
+            }
+            catch (Exception exc)
+            {
+                FileHelper.DeleteFile("depots.xml");
+                Logger.E(exc);
+            }
+        }
+
+        private void btndepo_Click(object sender, EventArgs e)
+        {
+            FileHelper.DeleteFile("depots.xml");
+            GetDepoList();
         }
     }
 }

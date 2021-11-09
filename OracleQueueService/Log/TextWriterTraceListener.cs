@@ -5,9 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace OracleListener.Log
+namespace OracleQueueService.Log
 {
     public class TextWriterTraceListener : TraceListener
     {
@@ -17,9 +16,9 @@ namespace OracleListener.Log
         {
             try
             {
-                string trace = $"{Application.StartupPath}\\app_trace.log";
+                string trace = $"{AppDomain.CurrentDomain.BaseDirectory}\\app_trace.log";
                 FileInfo fi = new FileInfo(trace);
-                bool append = fi.Exists && fi.Length < 1000000;
+                bool append = fi.Exists && fi.Length < 2000000;
                 Writer = new StreamWriter(trace, append, Encoding.GetEncoding("windows-1254"));
                 Writer.AutoFlush = true;
             }

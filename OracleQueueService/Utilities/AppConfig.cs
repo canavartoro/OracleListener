@@ -1,5 +1,5 @@
-﻿using OracleListener.Data;
-using OracleListener.Log;
+﻿using OracleQueueService.Data;
+using OracleQueueService.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,10 +7,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace OracleListener.Utilities
+namespace OracleQueueService.Utilities
 {
     [XmlRoot("SETTINGS")]
     //[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
@@ -42,46 +41,40 @@ namespace OracleListener.Utilities
         public string MQPassword { get; set; } = "";
 
         [XmlElement("TCP_PORT")]
-        public int TcpPort { get; set; } = 8888;
+        public int TcpPort { get; set; } = 2001;
 
         [XmlElement("ORA_HOST")]
-        public string OracleHost { get; set; } = "10.225.0.202";
+        public string OracleHost { get; set; } = "";
 
         [XmlElement("ORA_PORT")]
         public int OraclePort { get; set; } = 1521;
 
         [XmlElement("ORA_SERVICE")]
-        public string OracleServiceName { get; set; } = "UYUMYDK";
+        public string OracleServiceName { get; set; } = "";
 
         [XmlElement("ORA_DB")]
-        public string OracleDbName { get; set; } = "UYUMSOFT";
+        public string OracleDbName { get; set; } = "";
 
         [XmlElement("SQL_HOST")]
-        public string SqlHost { get; set; } = "10.225.0.86";
+        public string SqlHost { get; set; } = "";
 
         [XmlElement("SQL_DB")]
-        public string SqlDbName { get; set; } = "BIJOU";
+        public string SqlDbName { get; set; } = "";
 
         [XmlElement("SQL_USER")]
-        public string SqlUserId { get; set; } = "sa";
+        public string SqlUserId { get; set; } = "";
 
         [XmlElement("SQL_PASSW")]
-        public string SqlPassword { get; set; } = Encrypt("sqlsa@2017");
+        public string SqlPassword { get; set; } = "";
 
         [XmlElement("APP_LOG")]
         public int TraceLevel { get; set; } = 3;
 
         [XmlElement("FIRMA")]
-        public int CoId { get; set; } = 2379;
+        public int CoId { get; set; } = 3;
 
         [XmlElement("ISYERI")]
-        public int BranchId { get; set; } = 6373;
-
-        [XmlElement("BASLAT")]
-        public bool Otostart { get; set; } = false;
-
-        [XmlElement("USER_CODE")]
-        public string CreateUserId { get; set; } = "77384016-921F-472F-B56D-1D563B7DDF3C";
+        public int BranchId { get; set; } = 3;
 
         public string GetOracleConnectionString()
         {
@@ -118,7 +111,7 @@ namespace OracleListener.Utilities
         {
             try
             {
-                string configFile = $"{Application.StartupPath}\\config.xml";
+                string configFile = $"{AppDomain.CurrentDomain.BaseDirectory}\\config.xml";
                 if (File.Exists(configFile))
                 {
                     using (Stream stream = new FileStream(configFile, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -143,7 +136,7 @@ namespace OracleListener.Utilities
         {
             try
             {
-                using (Stream stream = new FileStream($"{Application.StartupPath}\\config.xml", FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (Stream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}\\config.xml", FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     XmlSerializer xmlserializer = new XmlSerializer(typeof(AppConfig));
                     xmlserializer.Serialize(stream, AppConfig.Default);

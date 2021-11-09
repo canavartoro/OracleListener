@@ -31,17 +31,28 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnbaslat = new System.Windows.Forms.ToolStripButton();
             this.btndurdur = new System.Windows.Forms.ToolStripButton();
             this.btnlogtemizle = new System.Windows.Forms.ToolStripButton();
             this.btnlogac = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.stokKartlarıAktarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.depoKartlarıAktarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblStatu = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkOtostart = new System.Windows.Forms.CheckBox();
+            this.btndepo = new System.Windows.Forms.Button();
+            this.numBranchId = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.numCoId = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.comboTrace = new System.Windows.Forms.ComboBox();
             this.textSqlPassword = new System.Windows.Forms.TextBox();
@@ -63,13 +74,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timerStart = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.lblStatu = new System.Windows.Forms.ToolStripStatusLabel();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.textCreateUserId = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBranchId)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCoId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numOraPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -81,8 +96,15 @@
             this.notifyIcon1.BalloonTipTitle = "Oracle Tcp Server";
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Oracle Tcp Server";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // toolStrip1
             // 
@@ -92,7 +114,8 @@
             this.btndurdur,
             this.btnlogtemizle,
             this.btnlogac,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripSplitButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 27);
@@ -126,6 +149,7 @@
             this.btnlogtemizle.Name = "btnlogtemizle";
             this.btnlogtemizle.Size = new System.Drawing.Size(134, 24);
             this.btnlogtemizle.Text = "Logları Temizle";
+            this.btnlogtemizle.Click += new System.EventHandler(this.btnlogtemizle_Click);
             // 
             // btnlogac
             // 
@@ -145,6 +169,33 @@
             this.toolStripButton1.Text = "Ayarları Kaydet";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stokKartlarıAktarToolStripMenuItem,
+            this.depoKartlarıAktarToolStripMenuItem});
+            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(170, 24);
+            this.toolStripSplitButton1.Text = "Manuel Aktarımlar";
+            // 
+            // stokKartlarıAktarToolStripMenuItem
+            // 
+            this.stokKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("stokKartlarıAktarToolStripMenuItem.Image")));
+            this.stokKartlarıAktarToolStripMenuItem.Name = "stokKartlarıAktarToolStripMenuItem";
+            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.stokKartlarıAktarToolStripMenuItem.Text = "Stok Kartları Aktar";
+            this.stokKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.stokKartlarıAktarToolStripMenuItem_Click);
+            // 
+            // depoKartlarıAktarToolStripMenuItem
+            // 
+            this.depoKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("depoKartlarıAktarToolStripMenuItem.Image")));
+            this.depoKartlarıAktarToolStripMenuItem.Name = "depoKartlarıAktarToolStripMenuItem";
+            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.depoKartlarıAktarToolStripMenuItem.Text = "Depo Kartları Aktar";
+            this.depoKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.depoKartlarıAktarToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -155,6 +206,13 @@
             this.statusStrip1.Size = new System.Drawing.Size(800, 25);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblStatu
+            // 
+            this.lblStatu.Name = "lblStatu";
+            this.lblStatu.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblStatu.Size = new System.Drawing.Size(18, 20);
+            this.lblStatu.Text = "...";
             // 
             // panel1
             // 
@@ -187,6 +245,15 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.textCreateUserId);
+            this.panel2.Controls.Add(this.label11);
+            this.panel2.Controls.Add(this.listView1);
+            this.panel2.Controls.Add(this.checkOtostart);
+            this.panel2.Controls.Add(this.btndepo);
+            this.panel2.Controls.Add(this.numBranchId);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.numCoId);
+            this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.comboTrace);
             this.panel2.Controls.Add(this.textSqlPassword);
@@ -212,6 +279,80 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(800, 266);
             this.panel2.TabIndex = 4;
+            // 
+            // checkOtostart
+            // 
+            this.checkOtostart.AutoSize = true;
+            this.checkOtostart.Location = new System.Drawing.Point(417, 176);
+            this.checkOtostart.Name = "checkOtostart";
+            this.checkOtostart.Size = new System.Drawing.Size(128, 21);
+            this.checkOtostart.TabIndex = 27;
+            this.checkOtostart.Text = "Otomatik başlat";
+            this.checkOtostart.UseVisualStyleBackColor = true;
+            // 
+            // btndepo
+            // 
+            this.btndepo.Image = ((System.Drawing.Image)(resources.GetObject("btndepo.Image")));
+            this.btndepo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btndepo.Location = new System.Drawing.Point(563, 1);
+            this.btndepo.Name = "btndepo";
+            this.btndepo.Size = new System.Drawing.Size(234, 25);
+            this.btndepo.TabIndex = 26;
+            this.btndepo.Text = "Listeyi Güncelle";
+            this.btndepo.UseVisualStyleBackColor = true;
+            this.btndepo.Click += new System.EventHandler(this.btndepo_Click);
+            // 
+            // numBranchId
+            // 
+            this.numBranchId.Location = new System.Drawing.Point(417, 148);
+            this.numBranchId.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numBranchId.Name = "numBranchId";
+            this.numBranchId.Size = new System.Drawing.Size(93, 22);
+            this.numBranchId.TabIndex = 25;
+            this.numBranchId.Value = new decimal(new int[] {
+            1421,
+            0,
+            0,
+            0});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(299, 150);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(123, 17);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "İş yeri Id (Branch):";
+            // 
+            // numCoId
+            // 
+            this.numCoId.Location = new System.Drawing.Point(417, 120);
+            this.numCoId.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numCoId.Name = "numCoId";
+            this.numCoId.Size = new System.Drawing.Size(93, 22);
+            this.numCoId.TabIndex = 23;
+            this.numCoId.Value = new decimal(new int[] {
+            1421,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(299, 122);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(93, 17);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Firma Id (Co):";
             // 
             // label10
             // 
@@ -413,21 +554,45 @@
             this.timerStart.Interval = 10;
             this.timerStart.Tick += new System.EventHandler(this.timerStart_Tick);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // lblStatu
+            // listView1
             // 
-            this.lblStatu.Name = "lblStatu";
-            this.lblStatu.Size = new System.Drawing.Size(18, 20);
-            this.lblStatu.Text = "...";
+            this.listView1.CheckBoxes = true;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(563, 27);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(234, 233);
+            this.listView1.TabIndex = 28;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Depo Listesi";
+            this.columnHeader1.Width = 220;
+            // 
+            // textCreateUserId
+            // 
+            this.textCreateUserId.Location = new System.Drawing.Point(112, 174);
+            this.textCreateUserId.Name = "textCreateUserId";
+            this.textCreateUserId.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUserId.TabIndex = 30;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 177);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 17);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "Kullanıcı Kodu";
             // 
             // Form1
             // 
@@ -453,6 +618,8 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBranchId)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCoId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numOraPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
@@ -499,6 +666,19 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ToolStripStatusLabel lblStatu;
+        private System.Windows.Forms.NumericUpDown numBranchId;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown numCoId;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem stokKartlarıAktarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem depoKartlarıAktarToolStripMenuItem;
+        private System.Windows.Forms.Button btndepo;
+        private System.Windows.Forms.CheckBox checkOtostart;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.TextBox textCreateUserId;
+        private System.Windows.Forms.Label label11;
     }
 }
 

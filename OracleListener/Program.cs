@@ -91,5 +91,11 @@ namespace OracleListener
                 return reader.ReadToEnd().Replace("\r", "").Replace("\n","");
             }
         }
+
+        public static object GetParamValue(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return DBNull.Value;
+            else return value;
+        }
     }
 }

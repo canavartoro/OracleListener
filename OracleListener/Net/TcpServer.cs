@@ -27,8 +27,7 @@ namespace OracleListener.Net
             try
             {
                 abortListener = true;
-                int port = AppCache.ReadInteger("PRINTSERVERPORT", 4444);
-                server = new TcpListener(IPAddress.Loopback, port);
+                server = new TcpListener(IPAddress.Any, AppConfig.Default.TcpPort);
                 server.Start();
 
                 threadlisten = new Thread(new ThreadStart(Listening));
@@ -53,7 +52,10 @@ namespace OracleListener.Net
                 try
                 {
                     Thread.Sleep(1000);
-                    if (server != null) server.Stop();
+                    if (server != null)
+                    {
+                        server.Stop();
+                    }
                 }
                 catch (Exception excstop) { Logger.E(excstop); }
 
@@ -65,7 +67,7 @@ namespace OracleListener.Net
                 catch (ThreadAbortException exctabort) { Logger.E(exctabort); }
                 catch (Exception excabort) { Logger.E(excabort); }
 
-                Logger.I("Server durduruldu");
+                //Logger.I("Server durduruldu");
             }
             catch (Exception exc)
             {
