@@ -317,13 +317,29 @@ ORDER BY WH.WHOUSE_CODE");
 
         private void stokKartlarıAktarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var syncQueue = new RabbitMQManager(1))
+            try
             {
-                DataSynchronizationModel synchronizationobj = new DataSynchronizationModel();
-                synchronizationobj.Argument = "";
-                synchronizationobj.Name = "STOK";
-                syncQueue.Publish(synchronizationobj);
+                Cursor.Current = Cursors.WaitCursor;
+                using (var data = new DataSynchronization())
+                {
+                    data.StokSynchronization();
+                }
             }
+            catch (Exception ex)
+            {
+                Logger.E(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+            //using (var syncQueue = new RabbitMQManager(1))
+            //{
+            //    DataSynchronizationModel synchronizationobj = new DataSynchronizationModel();
+            //    synchronizationobj.Argument = "";
+            //    synchronizationobj.Name = "STOK";
+            //    syncQueue.Publish(synchronizationobj);
+            //}
         }
 
         private void depoKartlarıAktarToolStripMenuItem_Click(object sender, EventArgs e)
