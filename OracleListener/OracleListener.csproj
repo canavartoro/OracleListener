@@ -67,6 +67,7 @@
     <Compile Include="Data\OracleProvider.cs" />
     <Compile Include="Data\RabbitMQManager.cs" />
     <Compile Include="Data\SqlClient.cs" />
+    <Compile Include="Data\StokModel.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -111,6 +112,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\CREATE_ARTICLE.sql" />
+    <Content Include="Scripts\CREATE_DEPOT.sql" />
     <Content Include="Scripts\Oracle_TCPsetupOnly.txt" />
     <Content Include="Scripts\tcpTrigger.txt" />
     <EmbeddedResource Include="build.txt" />
