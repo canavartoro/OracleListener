@@ -121,13 +121,14 @@ namespace OracleListener.Net
         {
             try
             {
+                Logger.I(receivedata.ToString());
                 using (DataSynchronization data = new DataSynchronization())
                 {
-                    if (receivedata.Command == TcpClient.COMMAND_STOK)
+                    if (receivedata.Command.StartsWith(TcpClient.COMMAND_STOK))
                     {
                         data.StokSynchronization(receivedata.Name);
                     }
-                    else if (receivedata.Command == TcpClient.COMMAND_DEPO)
+                    else if (receivedata.Command.StartsWith(TcpClient.COMMAND_DEPO))
                     {
                         data.DepoSynchronization(receivedata.Name);
                     }

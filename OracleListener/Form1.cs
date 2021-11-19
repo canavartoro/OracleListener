@@ -40,7 +40,7 @@ namespace OracleListener
             try
             {
                 oraserv = new Net.TcpServer();
-                oraserv.Receved += Oraserv_Receved; ;
+                oraserv.Receved += Oraserv_Receved;
                 oraserv.Start();
             }
             catch (Exception ex)
@@ -98,6 +98,8 @@ ORDER BY WH.WHOUSE_CODE");
                 {
                     listView1.Invoke(new Action(() =>
                     {
+                        listView1.BeginUpdate();
+                        listView1.Items.Clear();
                         for (int i = 0; i < depots.Count; i++)
                         {
                             ListViewItem item = new ListViewItem();
@@ -106,6 +108,7 @@ ORDER BY WH.WHOUSE_CODE");
                             item.Checked = depots[i].SELECTED;
                             listView1.Items.Add(item);
                         }
+                        listView1.EndUpdate();
                         Application.DoEvents();
                     }));
                 }

@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="Scripts\CREATE_ARTICLE.sql" />
     <Content Include="Scripts\CREATE_DEPOT.sql" />
+    <Content Include="Scripts\INVBRANCH_WHOUSE_TC.sql" />
     <Content Include="Scripts\Oracle_TCPsetupOnly.txt" />
     <Content Include="Scripts\tcpTrigger.txt" />
     <EmbeddedResource Include="build.txt" />

@@ -23,11 +23,11 @@ namespace OracleListener.Net
         [System.Xml.Serialization.XmlIgnore]
         NetworkStream networkStream = null;
 
-        public string Name { get; set; }
-        public string Message { get; set; }
-        public string Data { get; set; }
-        public string Command { get; set; }
-        public string Outher { get; set; }
+        public string Name { get; set; } = "";
+        public string Message { get; set; } = "";
+        public string Data { get; set; } = "";
+        public string Command { get; set; } = "";
+        public string Outher { get; set; } = "";
 
         [System.Xml.Serialization.XmlIgnore]
         public System.Net.Sockets.TcpClient Client
@@ -76,6 +76,11 @@ namespace OracleListener.Net
                 Logger.E(exc);
             }
 
+        }
+
+        public override string ToString()
+        {
+            return $"Command:{Command},ARGS:{Name},OUTHER:{Outher}";
         }
 
         public static TcpClient ParsData(byte[] bytesdata)
