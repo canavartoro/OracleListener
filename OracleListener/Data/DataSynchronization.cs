@@ -48,7 +48,7 @@ ORDER BY IT.ITEM_CODE");
                     parameters[3] = new SqlParameter("@UNIT_ID", itemlist[i].UNIT_ID);
                     parameters[4] = new SqlParameter("@UNIT_CODE", itemlist[i].UNIT_CODE.GetParamValue());
 
-                    sqlClient.Execute("EXECUTE dbo.CREATE_ARTICLE @ITEM_ID, @ITEM_CODE, @ITEM_NAME, @UNIT_ID, @UNIT_CODE", parameters);
+                    sqlClient.Execute("EXECUTE dbo.ZZ_SP_CREATE_ARTICLE @ITEM_ID, @ITEM_CODE, @ITEM_NAME, @UNIT_ID, @UNIT_CODE", parameters);
                 }
             }
 
@@ -77,7 +77,7 @@ ORDER BY WH.WHOUSE_CODE");
                     parameters[1] = new SqlParameter("@WHOUSE_CODE", depolist[i].WHOUSE_CODE.GetParamValue());
                     parameters[2] = new SqlParameter("@DESCRIPTION", depolist[i].WHOUSE_DESC.GetParamValue());
 
-                    sqlClient.Execute("EXECUTE dbo.CREATE_DEPOT @WHOUSE_ID, @WHOUSE_CODE, @DESCRIPTION", parameters);
+                    sqlClient.Execute("EXECUTE dbo.ZZ_SP_CREATE_DEPOT @WHOUSE_ID, @WHOUSE_CODE, @DESCRIPTION", parameters);
 
                     /*var t = sqlClient.Count($@"SELECT COUNT(*) AS TX FROM dbo.F_DEPOT WITH (NOLOCK) WHERE DE_Code = N'{depolist[i].WHOUSE_CODE}'");
                     if (t == 0)
