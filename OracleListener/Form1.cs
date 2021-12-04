@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -116,6 +117,25 @@ ORDER BY WH.WHOUSE_CODE");
             });
         }
 
+        private void CheckItemMField()
+        {
+            Task.Run(() =>
+            {
+                if (!File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log"))
+                {
+                    using (OracleProvider db = new OracleProvider())
+                    {
+                        var count = db.ExecuteScalar($"SELECT COUNT(*) ROW_COUNT FROM ALL_TAB_COLUMNS WHERE TABLE_NAME = 'INVT_ITEM_M' AND COLUMN_NAME = 'ZZ_DOCENTETE_ID'");
+                        if (count == null || Convert.ToInt32(count) == 0)
+                        {
+                            db.Execute(@"ALTER TABLE ""UYUMSOFT"".""INVT_ITEM_M"" ADD (""ZZ_DOCENTETE_ID"" NUMBER)");
+                        }
+                    }
+                    File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log", DateTime.Now.ToString());
+                }
+            });
+        }
+
         private void Oraserv_Receved(object sender, Net.TcpClient e)
         {
             //Task.Run(() => LoadData());
@@ -168,6 +188,13 @@ ORDER BY WH.WHOUSE_CODE");
                 btnbaslat.Enabled = false;
             }
             GetDepoList();
+            CheckItemMField();
+
+            //using (var sync = new DataSynchronization())
+            //{
+            //    sync.IrsaliyeSynchronization("39341");
+            //}
+
         }
 
         private void btnlogac_Click(object sender, EventArgs e)

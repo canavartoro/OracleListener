@@ -60,7 +60,7 @@ namespace OracleListener.Utilities
         public string SqlHost { get; set; } = "10.225.0.86";
 
         [XmlElement("SQL_DB")]
-        public string SqlDbName { get; set; } = "BIJOU";
+        public string SqlDbName { get; set; } = "PREPROD";
 
         [XmlElement("SQL_USER")]
         public string SqlUserId { get; set; } = "sa";

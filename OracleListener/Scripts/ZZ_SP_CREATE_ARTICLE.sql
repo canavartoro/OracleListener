@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE dbo.ZZ_SP_CREATE_ARTICLE(
+﻿
+--EXECUTE dbo.ZZ_SP_CREATE_ARTICLE 119906, '02 002', 'GRAVILLONS 5/15', 185, 'TON'	
+
+ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_ARTICLE](
 	@ITEM_ID INTEGER,
 	@ITEM_CODE NVARCHAR(60),
 	@ITEM_NAME NVARCHAR(150),
@@ -9,7 +12,7 @@ AS BEGIN
 DECLARE 
 @AR_Ref varchar(19) = @ITEM_CODE,
 @AR_Design varchar(69) = @ITEM_NAME,
-@FA_CodeFamille varchar(11) = N'P0001',
+@FA_CodeFamille varchar(11) = N'GRAV001',
 @AR_Substitut varchar(19) = NULL,
 @AR_Raccourci varchar(7) = NULL,
 @AR_Garantie smallint = 0,
@@ -83,13 +86,13 @@ DECLARE
 @CO_No int = 0,
 @cbCO_No int = NULL,
 @AR_Prevision smallint = 0,
-@CL_No1 int = 1,
-@cbCL_No1 int = 1,
-@CL_No2 int = 8,
-@cbCL_No2 int = 8,
-@CL_No3 int = 0,
+@CL_No1 int = NULL,
+@cbCL_No1 int = NULL,
+@CL_No2 int = NULL,
+@cbCL_No2 int = NULL,
+@CL_No3 int = NULL,
 @cbCL_No3 int = NULL,
-@CL_No4 int = 0,
+@CL_No4 int = NULL,
 @cbCL_No4 int = NULL,
 @AR_Type smallint = 0,
 @RP_CodeDefaut varchar(11) = NULL,
@@ -114,17 +117,23 @@ DECLARE
 @AR_InterdireCommande smallint = 0,
 @AR_Exclure smallint = 0
 
-IF EXISTS (SELECT * FROM dbo.F_ARTICLE WITH (NOLOCK) WHERE AR_Ref = @ITEM_CODE) BEGIN
-	UPDATE dbo.F_ARTICLE SET AR_Design = @ITEM_NAME WHERE AR_Ref = @ITEM_CODE
+SELECT @AR_Ref = REPLACE(@ITEM_CODE,' ','')
+
+IF EXISTS (SELECT * FROM dbo.F_ARTICLE WITH (NOLOCK) WHERE AR_Ref = @AR_Ref) BEGIN
+	UPDATE dbo.F_ARTICLE SET AR_Design = @ITEM_NAME WHERE AR_Ref = @AR_Ref
 END ELSE BEGIN
 	DECLARE @ID INTEGER
 	DECLARE @TableMarq TABLE (cbMarq int);
+	
 	INSERT INTO dbo.F_ARTICLE (AR_Ref,AR_Design,FA_CodeFamille,AR_Substitut,AR_Raccourci,AR_Garantie,AR_UnitePoids,AR_PoidsNet,AR_PoidsBrut,AR_UniteVen,AR_PrixAch,AR_Coef,AR_PrixVen,AR_PrixTTC,AR_Gamme1,AR_Gamme2,AR_SuiviStock,AR_Nomencl,AR_Stat01,AR_Stat02,AR_Stat03,AR_Stat04,AR_Stat05,AR_Escompte,AR_Delai,AR_HorsStat,AR_VteDebit,AR_NotImp,AR_Sommeil,AR_Langue1,AR_Langue2,AR_EdiCode,AR_CodeBarre,AR_CodeFiscal,AR_Pays,AR_Frais01FR_Denomination,AR_Frais01FR_Rem01REM_Valeur,AR_Frais01FR_Rem01REM_Type,AR_Frais01FR_Rem02REM_Valeur,AR_Frais01FR_Rem02REM_Type,AR_Frais01FR_Rem03REM_Valeur,AR_Frais01FR_Rem03REM_Type,AR_Frais02FR_Denomination,AR_Frais02FR_Rem01REM_Valeur,AR_Frais02FR_Rem01REM_Type,AR_Frais02FR_Rem02REM_Valeur,AR_Frais02FR_Rem02REM_Type,AR_Frais02FR_Rem03REM_Valeur,AR_Frais02FR_Rem03REM_Type,AR_Frais03FR_Denomination,AR_Frais03FR_Rem01REM_Valeur,AR_Frais03FR_Rem01REM_Type,AR_Frais03FR_Rem02REM_Valeur,AR_Frais03FR_Rem02REM_Type,AR_Frais03FR_Rem03REM_Valeur,AR_Frais03FR_Rem03REM_Type,AR_Condition,AR_PUNet,AR_Contremarque,AR_FactPoids,AR_FactForfait,AR_SaisieVar,AR_Transfere,AR_Publie,AR_DateModif,AR_Photo,AR_PrixAchNouv,AR_CoefNouv,AR_PrixVenNouv,AR_DateApplication,AR_CoutStd,AR_QteComp,AR_QteOperatoire,CO_No,cbCO_No,AR_Prevision,CL_No1,cbCL_No1,CL_No2,cbCL_No2,CL_No3,cbCL_No3,CL_No4,cbCL_No4,AR_Type,RP_CodeDefaut,AR_Nature,AR_DelaiFabrication,AR_NbColis,AR_DelaiPeremption,AR_DelaiSecurite,AR_Fictif,AR_SousTraitance,AR_TypeLancement,AR_Cycle,AR_Criticite,AR_InterdireCommande,AR_Exclure,cbCreateur,cbCreationUser)
 	OUTPUT inserted.cbMarq INTO @TableMarq VALUES (@AR_Ref,@AR_Design,@FA_CodeFamille,@AR_Substitut,@AR_Raccourci,@AR_Garantie,@AR_UnitePoids,@AR_PoidsNet,@AR_PoidsBrut,@AR_UniteVen,@AR_PrixAch,@AR_Coef,@AR_PrixVen,@AR_PrixTTC,@AR_Gamme1,@AR_Gamme2,@AR_SuiviStock,@AR_Nomencl,@AR_Stat01,@AR_Stat02,@AR_Stat03,@AR_Stat04,@AR_Stat05,@AR_Escompte,@AR_Delai,@AR_HorsStat,@AR_VteDebit,@AR_NotImp,@AR_Sommeil,@AR_Langue1,@AR_Langue2,@AR_EdiCode,@AR_CodeBarre,@AR_CodeFiscal,@AR_Pays,@AR_Frais01FR_Denomination,@AR_Frais01FR_Rem01REM_Valeur,@AR_Frais01FR_Rem01REM_Type,@AR_Frais01FR_Rem02REM_Valeur,@AR_Frais01FR_Rem02REM_Type,@AR_Frais01FR_Rem03REM_Valeur,@AR_Frais01FR_Rem03REM_Type,@AR_Frais02FR_Denomination,@AR_Frais02FR_Rem01REM_Valeur,@AR_Frais02FR_Rem01REM_Type,@AR_Frais02FR_Rem02REM_Valeur,@AR_Frais02FR_Rem02REM_Type,@AR_Frais02FR_Rem03REM_Valeur,@AR_Frais02FR_Rem03REM_Type,@AR_Frais03FR_Denomination,@AR_Frais03FR_Rem01REM_Valeur,@AR_Frais03FR_Rem01REM_Type,@AR_Frais03FR_Rem02REM_Valeur,@AR_Frais03FR_Rem02REM_Type,@AR_Frais03FR_Rem03REM_Valeur,@AR_Frais03FR_Rem03REM_Type,@AR_Condition,@AR_PUNet,@AR_Contremarque,@AR_FactPoids,@AR_FactForfait,@AR_SaisieVar,@AR_Transfere,@AR_Publie,@AR_DateModif,@AR_Photo,@AR_PrixAchNouv,@AR_CoefNouv,@AR_PrixVenNouv,@AR_DateApplication,@AR_CoutStd,@AR_QteComp,@AR_QteOperatoire,@CO_No,@cbCO_No,@AR_Prevision,@CL_No1,@cbCL_No1,@CL_No2,@cbCL_No2,@CL_No3,@cbCL_No3,@CL_No4,@cbCL_No4,@AR_Type,@RP_CodeDefaut,@AR_Nature,@AR_DelaiFabrication,@AR_NbColis,@AR_DelaiPeremption,@AR_DelaiSecurite,@AR_Fictif,@AR_SousTraitance,@AR_TypeLancement,@AR_Cycle,@AR_Criticite,@AR_InterdireCommande,@AR_Exclure,@cbCreateur,@cbCreationUser)
 	SELECT @cbMarq = cbMarq FROM @TableMarq;
+	
+	--SELECT * FROM dbo.F_CATALOGUE WITH (NOLOCK) WHERE CL_No = 1
 
 	INSERT INTO F_ARTCLIENT (AR_Ref,AC_Categorie,AC_PrixVen,AC_Coef,AC_PrixTTC,AC_Arrondi,AC_QteMont,EG_Champ,AC_PrixDev,AC_Devise,CT_Num,AC_Remise,AC_Calcul,AC_TypeRem,AC_RefClient,AC_CoefNouv,AC_PrixVenNouv,AC_PrixDevNouv,AC_RemiseNouv,AC_DateApplication,cbCreateur,cbCreationUser) OUTPUT inserted.cbMarq INTO @TableMarq 
 	VALUES (@AR_Ref,3,0,0,1,0,0,0,0,0,NULL,0,0,0,'',0,0,0,0,CONVERT(DATETIME,'1753-01-01 00:00:00.000'),@cbCreateur,@cbCreationUser);
+	
 	SELECT @ID = cbMarq FROM @TableMarq;
 
 
