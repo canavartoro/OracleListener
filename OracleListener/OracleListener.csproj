@@ -123,6 +123,8 @@
     <Content Include="Scripts\ZZ_SP_CREATE_ARTICLE.sql" />
     <Content Include="Scripts\ZZ_SP_CREATE_COMPTET.sql" />
     <Content Include="Scripts\ZZ_SP_CREATE_DEPOT.sql" />
+    <Content Include="Scripts\ZZ_SP_CREATE_IRSALIYE_ALIS.sql" />
+    <Content Include="Scripts\ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY.sql" />
     <Content Include="Scripts\ZZ_SP_CREATE_IRSALIYE_SATIS.sql" />
     <EmbeddedResource Include="build.txt" />
     <Content Include="favicon.ico" />

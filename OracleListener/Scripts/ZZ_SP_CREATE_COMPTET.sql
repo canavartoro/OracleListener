@@ -3,13 +3,14 @@ ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_COMPTET](
 	@ENTITY_ID INTEGER,
 	@ENTITY_CODE NVARCHAR(20),
 	@ENTITY_NAME NVARCHAR(100),
+	@CT_Type smallint,
 	@CT_Num varchar(17) OUTPUT
 )
 AS BEGIN
 DECLARE
 --@CT_Num varchar(17) = 	REPLACE(@ENTITY_CODE, ' ', ''),
 @CT_Intitule varchar(69) = 	@ENTITY_NAME,
-@CT_Type smallint =	0,
+--@CT_Type smallint =	0,
 @CG_NumPrinc varchar(13) = 	'41100000',
 @CT_Qualite varchar(17) = 	'',
 @CT_Classement varchar(17) = 	@ENTITY_NAME,
@@ -146,7 +147,9 @@ DECLARE
 
 SET NOCOUNT ON
 
-SELECT @CT_Num = CT_Num FROM dbo.F_COMPTET WITH (NOLOCK) WHERE CT_Qualite = CAST(@ENTITY_ID AS varchar(17))
+SELECT @ENTITY_CODE = REPLACE(@ENTITY_CODE,' ',''), @CT_NumPayeur = REPLACE(@ENTITY_CODE,' ','')
+
+SELECT TOP 1 @CT_Num = CT_Num, @CT_Qualite = CT_Qualite FROM dbo.F_COMPTET WITH (NOLOCK) WHERE CT_Qualite = CAST(@ENTITY_ID AS varchar(17)) OR CT_Num = @ENTITY_CODE
 
 PRINT @CT_Num
 
@@ -171,6 +174,11 @@ VALUES (@LI_No,@CT_Num,@CT_Intitule,N'COTE D''IVOIRE',@N_Expedition,@N_Condition
 INSERT INTO F_COMPTETG (CT_Num,CG_Num,cbCreateur,cbCreationUser)
 VALUES (@CT_Num,@CG_NumPrinc,@cbCreateur,@cbCreationUser);
 
+END ELSE BEGIN
+	PRINT 'GIRDI 175'
+	IF ISNULL(@CT_Qualite, '') <> CAST(@ENTITY_ID AS varchar(17)) BEGIN
+		UPDATE dbo.F_COMPTET SET CT_Qualite = CAST(@ENTITY_ID AS varchar(17)) WHERE CT_Num = @CT_Num
+	END
 
 END
 

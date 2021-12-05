@@ -99,6 +99,16 @@ ORDER BY WH.WHOUSE_CODE");
                 {
                     listView1.Invoke(new Action(() =>
                     {
+                        var selectedDepots = new List<int>();
+                        for (int i = 0; i < listView1.Items.Count; i++)
+                        {
+                            if (listView1.Items[i].Checked)
+                            {
+                                DepoModel depo = listView1.Items[i].Tag as DepoModel;
+                                selectedDepots.Add(depo.WHOUSE_ID);
+                            }
+                        }
+
                         listView1.BeginUpdate();
                         listView1.Items.Clear();
                         for (int i = 0; i < depots.Count; i++)
@@ -106,7 +116,7 @@ ORDER BY WH.WHOUSE_CODE");
                             ListViewItem item = new ListViewItem();
                             item.Text = $@"{depots[i].WHOUSE_CODE} {depots[i].WHOUSE_DESC}";
                             item.Tag = depots[i];
-                            item.Checked = depots[i].SELECTED;
+                            item.Checked = (depots[i].SELECTED || (selectedDepots != null && selectedDepots.Any(x => x == depots[i].WHOUSE_ID)));
                             listView1.Items.Add(item);
                         }
                         listView1.EndUpdate();
@@ -190,10 +200,10 @@ ORDER BY WH.WHOUSE_CODE");
             GetDepoList();
             CheckItemMField();
 
-            //using (var sync = new DataSynchronization())
-            //{
-            //    sync.IrsaliyeSynchronization("39341");
-            //}
+            using (var sync = new DataSynchronization())
+            {
+                sync.AlisIrsaliyeSynchronization("310223");
+            }
 
         }
 
@@ -426,6 +436,46 @@ ORDER BY WH.WHOUSE_CODE");
         {
             FileHelper.DeleteFile("depots.xml");
             GetDepoList();
+        }
+
+        private void btnalis_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                using (var data = new DataSynchronization())
+                {
+                    data.AlisIrsaliyeSynchronization();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.E(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void btnsatis_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                using (var data = new DataSynchronization())
+                {
+                    data.SatisIrsaliyeSynchronization();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.E(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 }

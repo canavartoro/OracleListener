@@ -1,22 +1,20 @@
 ﻿
-ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_IRSALIYE_SATIS](
+ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY](
 	@DO_Piece varchar(13), -- BELGE NUMARASI
 	@DO_Date datetime, -- BELGE TARIHI
-	@ENTITY_ID INTEGER, -- CARI ID
-	@DO_Tiers varchar(17), -- CARI KODU
-	@CT_Intitule varchar(69), -- CARI ADI
+	@CT_Num VARCHAR(17), -- CARI KODU
 	@DE_No int, --DEPO ID
 	@AR_Ref varchar(19), -- STOK KODU
 	@DL_Design varchar(69), -- STOK ADI
 	@DL_Qte numeric(24, 6), --MIKTAR
 	@UnitPrice FLOAT
 )
---EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_SATIS 'SAT08','2021-12-02 00:00:00',444145,'4112GBKHERE','DENEME CARISI 32 54',3146,'F000002','MOTOR 5 KW', 3, 2.3
+--EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY 'BL146941','2021-01-10 00:00:00',3121,'F014252','KABLO UCU- IZOLE 4-6/1 KUTU 100 ADET',1,14000
 AS BEGIN
 SET NOCOUNT ON
 DECLARE 
-	@DO_Domaine smallint =0,
-	@DO_Type smallint = 3,
+	@DO_Domaine smallint =1,
+	@DO_Type smallint = 13,
 	--@DO_Piece varchar(13) 	=	'SAT2',
 	--@DO_Date datetime 	=	'2021-12-01 00:00:00',
 	@DO_Ref varchar(17) 	=	'',
@@ -30,7 +28,6 @@ DECLARE
 	@cbDE_No int =	@DE_No,
 	@LI_No int 	=	0,
 	@cbLI_No int =	NULL,
-	@CT_NumPayeur varchar(17) =	@DO_Tiers, --'4112GBTHARA',
 	@DO_Expedit smallint =	1,
 	@DO_NbFacture smallint =	1,
 	@DO_BLFact smallint =	0,
@@ -59,7 +56,7 @@ DECLARE
 	@DO_FinAbo datetime 	=	'1753-01-01 00:00:00',
 	@DO_DebutPeriod datetime 	=	'1753-01-01 00:00:00',
 	@DO_FinPeriod datetime 	=	'1753-01-01 00:00:00',
-	@CG_Num varchar(13) 	=	'41110000',
+	@CG_Num varchar(13) 	=	'4010000',
 	@DO_Statut smallint 	=	2,
 	@DO_Heure char(9) 	=	'000' + REPLACE(CONVERT(NVARCHAR(8),GETDATE(),114), ':',''),
 	@CA_No int 	=	0,
@@ -129,11 +126,9 @@ DECLARE
 	--F_DOCENTETEINFOS
 	@DI_Code varchar(13) =	'', 
 	@DI_Intitule varchar(35) =	3, 
-	@DI_Valeur varchar(101) =	@DO_Tiers, 
 	--F_DOCREGL
 	@DR_No int 	=	NULL,
 	@DR_TypeRegl smallint 	=	2,
-	@DR_Date datetime 	=	@DO_Date,
 	@DR_Libelle varchar(35) 	=	'',
 	@DR_Pourcent numeric(24, 6) 	=	0,
 	@DR_Montant numeric(24, 6) 	=	0,
@@ -147,7 +142,7 @@ DECLARE
 	@DR_AdressePaiement varchar(255) 	=	'',
 	@DO_PieceAcompte varchar(13) 	=	'',
 	--F_DOCLIGNE
-	@CT_Num varchar(17) 	=	NULL,
+	--@CT_Num varchar(17) 	=	NULL,
 	@DL_PieceBC varchar(13) 	=	'',
 	@DL_PieceBL varchar(13) 	=	'',
 	@DL_DateBC datetime 	=	@DO_Date,
@@ -236,60 +231,15 @@ DECLARE
 	@AS_MontSto numeric(24,6) = NULL,
 	@ERROR_MSG NVARCHAR(MAX) = NULL
 
-	SELECT @ENTITY_CODE = CONCAT(N'411',REPLACE(@DO_Tiers, ' ', '')), @AR_Ref = REPLACE(@AR_Ref,' ','')
-
-	PRINT @ENTITY_CODE
-
-	EXECUTE [dbo].[ZZ_SP_CREATE_COMPTET] @ENTITY_ID,@ENTITY_CODE,@CT_Intitule,0,@CT_Num OUTPUT
+	EXECUTE [dbo].[ZZ_SP_CREATE_ARTICLE] 0,@AR_Ref,@DL_Design,0,'TON'
 
 	IF @@ERROR <> 0 BEGIN
 		RETURN
 	END
 
-	SELECT @DO_Tiers = @CT_Num, @CT_NumPayeur = @CT_Num, @DI_Valeur = @CT_Num
-
-	EXECUTE [dbo].[ZZ_SP_CREATE_ARTICLE] 0,@AR_Ref,@DL_Design,0,'TON'
-
-IF @@ERROR <> 0 BEGIN
-	RETURN
-END
-
 SELECT TOP 1 @F_ARTSTOCK_cbMarq = cbMarq, @AS_QteSto = AS_QteSto, @AS_MontSto = AS_MontSto FROM F_ARTSTOCK WITH (NOLOCK) WHERE AR_Ref = @AR_Ref AND DE_No = @DE_No
 
-IF ISNULL(@AS_QteSto,0) < @DL_Qte BEGIN
-	SET @ERROR_MSG = CONCAT('STOK YETERSİZ! ', @AS_QteSto,', GEREKEN:',@DL_Qte)
-	RAISERROR('HATA %s',16,1,@ERROR_MSG) WITH SETERROR,NOWAIT RETURN
-END
-
 BEGIN TRANSACTION
-
-INSERT INTO dbo.F_DOCENTETE (DO_Domaine,DO_Type,DO_Piece,DO_Date,DO_Ref,DO_Tiers,CO_No,cbCO_No,DO_Period,DO_Devise,DO_Cours,DE_No,cbDE_No,LI_No,cbLI_No,CT_NumPayeur,DO_Expedit,DO_NbFacture,DO_BLFact,DO_TxEscompte,DO_Reliquat,DO_Imprim,CA_Num,DO_Coord01,DO_Coord02,DO_Coord03,DO_Coord04,DO_Souche,DO_DateLivr,DO_Condition,DO_Tarif,DO_Colisage,DO_TypeColis,DO_Transaction,DO_Langue,DO_Ecart,DO_Regime,N_CatCompta,DO_Ventile,AB_No,DO_DebutAbo,DO_FinAbo,DO_DebutPeriod,DO_FinPeriod,CG_Num,DO_Statut,DO_Heure,CA_No,cbCA_No,CO_NoCaissier,cbCO_NoCaissier,DO_Transfere,DO_Cloture,DO_NoWeb,DO_Attente,DO_Provenance,CA_NumIFRS,MR_No,DO_TypeFrais,DO_ValFrais,DO_TypeLigneFrais,DO_TypeFranco,DO_ValFranco,DO_TypeLigneFranco,DO_Taxe1,DO_TypeTaux1,DO_TypeTaxe1,DO_Taxe2,DO_TypeTaux2,DO_TypeTaxe2,DO_Taxe3,DO_TypeTaux3,DO_TypeTaxe3,DO_MajCpta,DO_Motif,CT_NumCentrale,DO_Contact,DO_FactureElec,DO_TypeTransac,DO_DateLivrRealisee,DO_DateExpedition,DO_FactureFrs,DO_PieceOrig,DO_GUID,DO_EStatut,DO_DemandeRegul,ET_No,cbET_No,DO_Valide,DO_Coffre,DO_CodeTaxe1,DO_CodeTaxe2,DO_CodeTaxe3,DO_TotalHT,DO_StatutBAP,DO_Escompte,DO_DocType,DO_TypeCalcul,DO_FactureFile,DO_TotalHTNet,DO_TotalTTC,DO_NetAPayer,DO_MontantRegle,DO_RefPaiement,DO_AdressePaiement,DO_PaiementLigne,DO_MotifDevis,DO_Conversion,cbCreateur,cbCreationUser) 
-VALUES (@DO_Domaine,@DO_Type,@DO_Piece,@DO_Date,@DO_Ref,@DO_Tiers,@CO_No,@cbCO_No,@DO_Period,@DO_Devise,@DO_Cours,@DE_No,@cbDE_No,@LI_No,@cbLI_No,@CT_NumPayeur,@DO_Expedit,@DO_NbFacture,@DO_BLFact,@DO_TxEscompte,@DO_Reliquat,@DO_Imprim,@CA_Num,@DO_Coord01,@DO_Coord02,@DO_Coord03,@DO_Coord04,@DO_Souche,@DO_DateLivr,@DO_Condition,@DO_Tarif,@DO_Colisage,@DO_TypeColis,@DO_Transaction,@DO_Langue,@DO_Ecart,@DO_Regime,@N_CatCompta,@DO_Ventile,@AB_No,@DO_DebutAbo,@DO_FinAbo,@DO_DebutPeriod,@DO_FinPeriod,@CG_Num,@DO_Statut,@DO_Heure,@CA_No,@cbCA_No,@CO_NoCaissier,@cbCO_NoCaissier,@DO_Transfere,@DO_Cloture,@DO_NoWeb,@DO_Attente,@DO_Provenance,@CA_NumIFRS,@MR_No,@DO_TypeFrais,@DO_ValFrais,@DO_TypeLigneFrais,@DO_TypeFranco,@DO_ValFranco,@DO_TypeLigneFranco,@DO_Taxe1,@DO_TypeTaux1,@DO_TypeTaxe1,@DO_Taxe2,@DO_TypeTaux2,@DO_TypeTaxe2,@DO_Taxe3,@DO_TypeTaux3,@DO_TypeTaxe3,@DO_MajCpta,@DO_Motif,@CT_NumCentrale,@DO_Contact,@DO_FactureElec,@DO_TypeTransac,@DO_DateLivrRealisee,@DO_DateExpedition,@DO_FactureFrs,@DO_PieceOrig,@DO_GUID,@DO_EStatut,@DO_DemandeRegul,@ET_No,@cbET_No,@DO_Valide,@DO_Coffre,@DO_CodeTaxe1,@DO_CodeTaxe2,@DO_CodeTaxe3,@DO_TotalHT,@DO_StatutBAP,@DO_Escompte,@DO_DocType,@DO_TypeCalcul,@DO_FactureFile,@DO_TotalHTNet,@DO_TotalTTC,@DO_NetAPayer,@DO_MontantRegle,@DO_RefPaiement,@DO_AdressePaiement,@DO_PaiementLigne,@DO_MotifDevis,@DO_Conversion,@cbCreateur,@cbCreationUser)
-SELECT @cbMarq = SCOPE_IDENTITY()
-
-IF @@ERROR <> 0 BEGIN
-	ROLLBACK TRANSACTION
-	RETURN
-END
-
-INSERT INTO F_DOCENTETEINFOS (DO_Type, DO_Piece, DI_Code, DI_Type, DI_Intitule , DI_Valeur)				
-SELECT @DO_Type , @DO_Piece, CI_Code, CI_Type , CI_Intitule , CI_Valeur FROM dbo.F_COMPTETINFOS WITH (NOLOCK) 
-WHERE cbCT_Num = convert(varbinary(255),@DO_Tiers) AND CI_Domaine = 1 
-
-IF @@ERROR <> 0 BEGIN
-	ROLLBACK TRANSACTION
-	RETURN
-END
-
-SELECT @DR_No =  MAX(DR_No) + 1 FROM F_DOCREGL WITH (NOLOCK) --(UPDLOCK,TABLOCK)
-
-INSERT INTO dbo.F_DOCREGL (DR_No,DO_Domaine,DO_Type,DO_Piece,DR_TypeRegl,DR_Date,DR_Libelle,DR_Pourcent,DR_Montant,DR_MontantDev,DR_Equil,EC_No,cbEC_No,DR_Regle,N_Reglement,CA_No,cbCA_No,DO_DocType,DR_RefPaiement,DR_AdressePaiement,DO_PieceAcompte,cbCreateur,cbCreationUser)
-VALUES (@DR_No,@DO_Domaine,@DO_Type,@DO_Piece,@DR_TypeRegl,@DR_Date,@DR_Libelle,@DR_Pourcent,@DR_Montant,@DR_MontantDev,@DR_Equil,@EC_No,@cbEC_No,@DR_Regle,@N_Reglement,@CA_No,@cbCA_No,@DO_DocType,@DR_RefPaiement,@DR_AdressePaiement,@DO_PieceAcompte,@cbCreateur,@cbCreationUser)
-
-IF @@ERROR <> 0 BEGIN
-	ROLLBACK TRANSACTION
-	RETURN
-END
 
 SELECT @DL_No = MAX(DL_No) + 1 FROM F_DOCLIGNE WITH (NOLOCK) --(UPDLOCK,TABLOCK)
 
@@ -301,7 +251,28 @@ IF @@ERROR <> 0 BEGIN
 	RETURN
 END
 
-UPDATE dbo.F_ARTSTOCK SET AS_MontSto/*TUTAR*/ = (ISNULL(@AS_QteSto,0) - @DL_Qte) * @UnitPrice, AS_QteSto/*STOK BAKİYE*/ = ISNULL(@AS_QteSto,0) - @DL_Qte, cbCreateur = @cbCreateur WHERE cbMarq = @F_ARTSTOCK_cbMarq
+IF @F_ARTSTOCK_cbMarq IS NULL BEGIN
+	
+	DECLARE @AS_QteMini numeric(24,6) = 0, @AS_QteMaxi numeric(24,6) = 0, @AS_QteRes numeric(24,6) = 0, @AS_QteCom numeric(24,6) = 0,
+	@AS_Principal smallint  = 0,@AS_QteResCM numeric(24,6)  = 0,@AS_QteComCM numeric(24,6)  = 0,@AS_QtePrepa numeric(24,6)  = 0,
+	@DP_NoPrincipal int = @DE_No, @cbDP_NoPrincipal int = @DE_No, @DP_NoControle int = 0, @cbDP_NoControle int = @DE_No, @AS_QteAControler numeric(24,6) = 0,
+	@AS_Mouvemente smallint = 0
+
+	SELECT @AS_QteSto = ISNULL(@AS_QteSto,0) + @DL_Qte, @AS_MontSto = (ISNULL(@AS_QteSto,0) + @DL_Qte) * @UnitPrice
+
+	--SELECT DP_NoPrincipal = @DP_NoPrincipal FROM dbo.F_DEPOT WITH (NOLOCK) WHERE DE_No = @DE_No
+
+	DECLARE @TableMarq TABLE (cbMarq int);
+	INSERT INTO F_ARTSTOCK (AR_Ref,DE_No,AS_QteMini,AS_QteMaxi,AS_MontSto,AS_QteSto,AS_QteRes,AS_QteCom,AS_Principal,AS_QteResCM,AS_QteComCM,AS_QtePrepa,DP_NoPrincipal,cbDP_NoPrincipal,DP_NoControle,cbDP_NoControle,AS_QteAControler,AS_Mouvemente,cbCreateur,cbCreationUser) OUTPUT inserted.cbMarq INTO @TableMarq 
+	VALUES (@AR_Ref,@DE_No,@AS_QteMini,@AS_QteMaxi,@AS_MontSto,@AS_QteSto,@AS_QteRes,@AS_QteCom,@AS_Principal,@AS_QteResCM,@AS_QteComCM,@AS_QtePrepa,@DP_NoPrincipal,@cbDP_NoPrincipal,@DP_NoControle,@cbDP_NoControle,@AS_QteAControler,@AS_Mouvemente,@cbCreateur,@cbCreationUser);
+	SELECT @F_ARTSTOCK_cbMarq = cbMarq FROM @TableMarq;
+	
+END ELSE BEGIN
+
+UPDATE dbo.F_ARTSTOCK SET AS_MontSto/*TUTAR*/ = (ISNULL(@AS_QteSto,0) + @DL_Qte) * @UnitPrice, AS_QteSto/*STOK BAKİYE*/ = ISNULL(@AS_QteSto,0) + @DL_Qte, cbCreateur = @cbCreateur WHERE cbMarq = @F_ARTSTOCK_cbMarq
+
+END
+
 
 SET FMTONLY ON 
 INSERT INTO dbo.F_DOCLIGNEINFOS (DL_No,DC_Code,DC_Type,DC_Intitule,DC_Valeur)	

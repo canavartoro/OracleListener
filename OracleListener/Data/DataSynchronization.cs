@@ -131,7 +131,7 @@ INSERT INTO F_DEPOTEMPL (DE_No,DP_No,DP_Code,DP_Intitule,DP_Zone,DP_Type,cbCreat
 
         }
 
-        public void IrsaliyeSynchronization(string irsaliye = null)
+        public void SatisIrsaliyeSynchronization(string irsaliye = null)
         {
             string condition = string.Empty;
             if (!string.IsNullOrWhiteSpace(irsaliye))
@@ -140,12 +140,12 @@ INSERT INTO F_DEPOTEMPL (DE_No,DP_No,DP_Code,DP_Intitule,DP_Zone,DP_Type,cbCreat
             var irslist = Select<IrsaliyeModel>($@"
 SELECT M.ITEM_M_ID,M.DOC_NO,M.DOC_DATE,EN.ENTITY_ID,ENTITY_CODE,EN.ENTITY_NAME,M.PURCHASE_SALES,
 CASE WHEN M.PURCHASE_SALES = 2 THEN 'SATIS' ELSE 'ALIS' END ALIS_SATIS,CT.CAT_CODE,
-D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID
+D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE 
 FROM UYUMSOFT.INVT_ITEM_M M INNER JOIN UYUMSOFT.FIND_ENTITY EN ON M.ENTITY_ID = EN.ENTITY_ID LEFT JOIN 
 UYUMSOFT.GNLD_CATEGORY CT ON M.CAT_CODE1_ID = CT.CAT_CODE_ID INNER JOIN 
 UYUMSOFT.INVT_ITEM_D D ON D.ITEM_M_ID = M.ITEM_M_ID INNER JOIN 
 UYUMSOFT.INVD_ITEM IT ON D.ITEM_ID = IT.ITEM_ID INNER JOIN INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID
-WHERE ( 1 = 1 ) {condition} AND M.ZZ_DOCENTETE_ID IS NULL
+WHERE ( 1 = 1 ) {condition} AND M.ZZ_DOCENTETE_ID IS NULL AND CAST(TO_CHAR(M.DOC_DATE,'YY') AS NUMBER) = {DateTime.Now::yy}
 AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Default.CoId}' AND M.INVOICE_STATUS = 3 AND CT.CAT_CODE = 'R'");
             if (irslist != null && irslist.Count > 0)
             {
@@ -158,10 +158,11 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
                     new SqlParameter("@DE_No", irslist[0].WHOUSE_ID),
                     new SqlParameter("@AR_Ref", irslist[0].ITEM_CODE.GetParamValue()),
                     new SqlParameter("@DL_Design", irslist[0].ITEM_NAME.GetParamValue()),
-                    new SqlParameter("@DL_Qte", irslist[0].QTY)
+                    new SqlParameter("@DL_Qte", irslist[0].QTY),
+                    new SqlParameter("@UnitPrice", irslist[0].UNIT_PRICE)
             };
 
-                var cbMarq = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_SATIS @DO_Piece,@DO_Date,@ENTITY_ID,@DO_Tiers,@CT_Intitule,@DE_No,@AR_Ref,@DL_Design,@DL_Qte", parameters);
+                var cbMarq = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_SATIS @DO_Piece,@DO_Date,@ENTITY_ID,@DO_Tiers,@CT_Intitule,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice", parameters);
                 if (cbMarq != null)
                 {
                     if (!Execute($@"UPDATE ""UYUMSOFT"".""INVT_ITEM_M"" SET ""ZZ_DOCENTETE_ID"" = {cbMarq} WHERE ITEM_M_ID = {irslist[0].ITEM_M_ID}"))
@@ -170,6 +171,86 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
                     }
                 }
 
+            }
+
+        }
+
+        public void AlisIrsaliyeSynchronization(string irsaliye = null)
+        {
+            try
+            {
+                sqlClient.Begin();
+
+                string condition = string.Empty;
+                if (!string.IsNullOrWhiteSpace(irsaliye))
+                    condition = $" AND M.ITEM_M_ID =  '{irsaliye}' ";
+
+                var irslist = Select<IrsaliyeModel>($@"
+SELECT M.ITEM_M_ID,M.DOC_NO,M.DOC_DATE,EN.ENTITY_ID,ENTITY_CODE,EN.ENTITY_NAME,M.PURCHASE_SALES,
+CASE WHEN M.PURCHASE_SALES = 2 THEN 'SATIS' ELSE 'ALIS' END ALIS_SATIS,CT.CAT_CODE
+FROM UYUMSOFT.INVT_ITEM_M M INNER JOIN UYUMSOFT.FIND_ENTITY EN ON M.ENTITY_ID = EN.ENTITY_ID LEFT JOIN 
+UYUMSOFT.GNLD_CATEGORY CT ON M.CAT_CODE1_ID = CT.CAT_CODE_ID 
+WHERE ( 1 = 1 ) {condition} AND M.ZZ_DOCENTETE_ID IS NULL AND CAST(TO_CHAR(M.DOC_DATE,'YY') AS NUMBER) = {DateTime.Now:yy}
+AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Default.CoId}' AND M.INVOICE_STATUS = 3 AND CT.CAT_CODE = 'R'");
+                if (irslist != null && irslist.Count > 0)
+                {
+                    SqlParameter[] parameters = new SqlParameter[] {
+                    new SqlParameter("@DO_Piece", irslist[0].DOC_NO.GetParamValue()),
+                    new SqlParameter("@DO_Date", irslist[0].DOC_DATE.Date),
+                    new SqlParameter("@ENTITY_ID", irslist[0].ENTITY_ID),
+                    new SqlParameter("@DO_Tiers", irslist[0].ENTITY_CODE.GetParamValue()),
+                    new SqlParameter("@CT_Intitule", irslist[0].ENTITY_NAME.GetParamValue())
+                };
+
+                    var cbMarq = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS @DO_Piece,@DO_Date,@ENTITY_ID,@DO_Tiers,@CT_Intitule", parameters);
+                    if (cbMarq != null)
+                    {
+                        var detlist = Select<IrsaliyeModel>($@"
+SELECT D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE 
+FROM UYUMSOFT.INVT_ITEM_D D LEFT JOIN 
+UYUMSOFT.INVD_ITEM IT ON D.ITEM_ID = IT.ITEM_ID INNER JOIN 
+INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID
+WHERE D.ITEM_M_ID = {irslist[0].ITEM_M_ID}");
+
+                        if (detlist != null && detlist.Count > 0)
+                        {
+                            for (int i = 0; i < detlist.Count; i++)
+                            {
+                                SqlParameter[] parametersd = new SqlParameter[] {
+                                new SqlParameter("@DO_Piece", irslist[0].DOC_NO.GetParamValue()),
+                                new SqlParameter("@DO_Date", irslist[0].DOC_DATE.Date),
+                                new SqlParameter("@CT_Num", irslist[0].ENTITY_CODE.GetParamValue()),
+                                new SqlParameter("@DE_No", detlist[i].WHOUSE_ID),
+                                new SqlParameter("@AR_Ref", detlist[i].ITEM_CODE.GetParamValue()),
+                                new SqlParameter("@DL_Design", detlist[i].ITEM_NAME.GetParamValue()),
+                                new SqlParameter("@DL_Qte", detlist[i].QTY),
+                                new SqlParameter("@UnitPrice", detlist[i].UNIT_PRICE)
+                            };
+                                var cbMarqd = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY @DO_Piece,@DO_Date,@CT_Num,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice", parametersd);
+                                if (cbMarqd == null)
+                                {
+                                    Log.Logger.E($"İrsaliye oluşturulamadı! Id:{cbMarq}, Hata: {Message}, Sql:{SqlString}");
+                                }
+                            }
+                        }
+
+                        if (!Execute($@"UPDATE ""UYUMSOFT"".""INVT_ITEM_M"" SET ""ZZ_DOCENTETE_ID"" = {cbMarq} WHERE ITEM_M_ID = {irslist[0].ITEM_M_ID}"))
+                        {
+                            Log.Logger.E($"İrsaliye bilgisi güncellenemedi! Id:{cbMarq}, Hata: {Message}, Sql:{SqlString}");
+                        }
+                    }
+
+                    }
+
+                sqlClient.Commit();
+            }
+            catch (Exception exc)
+            {
+                Log.Logger.E(exc);
+            }
+            finally
+            {
+                sqlClient.Rollback();
             }
 
         }
@@ -199,3 +280,4 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
         #endregion
     }
 }
+

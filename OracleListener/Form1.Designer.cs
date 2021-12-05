@@ -47,6 +47,12 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textCreateUser = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textCreateUserId = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkOtostart = new System.Windows.Forms.CheckBox();
             this.btndepo = new System.Windows.Forms.Button();
             this.numBranchId = new System.Windows.Forms.NumericUpDown();
@@ -75,12 +81,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerStart = new System.Windows.Forms.Timer(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textCreateUserId = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textCreateUser = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.btnalis = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnsatis = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -175,7 +177,9 @@
             // 
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stokKartlarıAktarToolStripMenuItem,
-            this.depoKartlarıAktarToolStripMenuItem});
+            this.depoKartlarıAktarToolStripMenuItem,
+            this.btnalis,
+            this.btnsatis});
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
@@ -283,6 +287,58 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(800, 266);
             this.panel2.TabIndex = 4;
+            // 
+            // textCreateUser
+            // 
+            this.textCreateUser.Location = new System.Drawing.Point(112, 202);
+            this.textCreateUser.Name = "textCreateUser";
+            this.textCreateUser.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUser.TabIndex = 32;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(12, 205);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(84, 17);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "Kullanıcı Adı";
+            // 
+            // textCreateUserId
+            // 
+            this.textCreateUserId.Location = new System.Drawing.Point(112, 174);
+            this.textCreateUserId.Name = "textCreateUserId";
+            this.textCreateUserId.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUserId.TabIndex = 30;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 177);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 17);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "Kullanıcı Kodu";
+            // 
+            // listView1
+            // 
+            this.listView1.CheckBoxes = true;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(563, 27);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(234, 233);
+            this.listView1.TabIndex = 28;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Depo Listesi";
+            this.columnHeader1.Width = 220;
             // 
             // checkOtostart
             // 
@@ -562,57 +618,21 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // listView1
+            // btnalis
             // 
-            this.listView1.CheckBoxes = true;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(563, 27);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(234, 233);
-            this.listView1.TabIndex = 28;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
+            this.btnalis.Image = ((System.Drawing.Image)(resources.GetObject("btnalis.Image")));
+            this.btnalis.Name = "btnalis";
+            this.btnalis.Size = new System.Drawing.Size(216, 26);
+            this.btnalis.Text = "Alış Irsaliye Aktar";
+            this.btnalis.Click += new System.EventHandler(this.btnalis_Click);
             // 
-            // columnHeader1
+            // btnsatis
             // 
-            this.columnHeader1.Text = "Depo Listesi";
-            this.columnHeader1.Width = 220;
-            // 
-            // textCreateUserId
-            // 
-            this.textCreateUserId.Location = new System.Drawing.Point(112, 174);
-            this.textCreateUserId.Name = "textCreateUserId";
-            this.textCreateUserId.Size = new System.Drawing.Size(137, 22);
-            this.textCreateUserId.TabIndex = 30;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 177);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(97, 17);
-            this.label11.TabIndex = 29;
-            this.label11.Text = "Kullanıcı Kodu";
-            // 
-            // textCreateUser
-            // 
-            this.textCreateUser.Location = new System.Drawing.Point(112, 202);
-            this.textCreateUser.Name = "textCreateUser";
-            this.textCreateUser.Size = new System.Drawing.Size(137, 22);
-            this.textCreateUser.TabIndex = 32;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 205);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 17);
-            this.label14.TabIndex = 31;
-            this.label14.Text = "Kullanıcı Adı";
+            this.btnsatis.Image = ((System.Drawing.Image)(resources.GetObject("btnsatis.Image")));
+            this.btnsatis.Name = "btnsatis";
+            this.btnsatis.Size = new System.Drawing.Size(216, 26);
+            this.btnsatis.Text = "Satış Irsaliye Aktar";
+            this.btnsatis.Click += new System.EventHandler(this.btnsatis_Click);
             // 
             // Form1
             // 
@@ -701,6 +721,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textCreateUser;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ToolStripMenuItem btnalis;
+        private System.Windows.Forms.ToolStripMenuItem btnsatis;
     }
 }
 
