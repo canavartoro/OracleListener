@@ -229,6 +229,7 @@ WHERE D.ITEM_M_ID = {irslist[0].ITEM_M_ID}");
                                 var cbMarqd = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY @DO_Piece,@DO_Date,@CT_Num,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice", parametersd);
                                 if (cbMarqd == null)
                                 {
+                                    sqlClient.Rollback();
                                     Log.Logger.E($"İrsaliye oluşturulamadı! Id:{cbMarq}, Hata: {Message}, Sql:{SqlString}");
                                 }
                             }

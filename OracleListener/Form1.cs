@@ -143,6 +143,18 @@ ORDER BY WH.WHOUSE_CODE");
                     }
                     File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log", DateTime.Now.ToString());
                 }
+                //if (!File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckSQL.log"))
+                //{
+                //    using (OracleProvider db = new OracleProvider())
+                //    {
+                //        var count = db.ExecuteScalar($"SELECT COUNT(*) ROW_COUNT FROM ALL_TAB_COLUMNS WHERE TABLE_NAME = 'INVT_ITEM_M' AND COLUMN_NAME = 'ZZ_DOCENTETE_ID'");
+                //        if (count == null || Convert.ToInt32(count) == 0)
+                //        {
+                //            db.Execute(@"ALTER TABLE ""UYUMSOFT"".""INVT_ITEM_M"" ADD (""ZZ_DOCENTETE_ID"" NUMBER)");
+                //        }
+                //    }
+                //    File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log", DateTime.Now.ToString());
+                //}
             });
         }
 
@@ -202,7 +214,7 @@ ORDER BY WH.WHOUSE_CODE");
 
             using (var sync = new DataSynchronization())
             {
-                sync.AlisIrsaliyeSynchronization("310223");
+                sync.AlisIrsaliyeSynchronization("329286");
             }
 
         }
