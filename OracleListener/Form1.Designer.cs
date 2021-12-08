@@ -41,6 +41,8 @@
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.stokKartlarıAktarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.depoKartlarıAktarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnalis = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnsatis = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatu = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -81,8 +83,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerStart = new System.Windows.Forms.Timer(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnalis = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnsatis = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtIrsaliyeNo = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -122,7 +124,7 @@
             this.toolStripSplitButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(600, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -132,7 +134,7 @@
             this.btnbaslat.Image = ((System.Drawing.Image)(resources.GetObject("btnbaslat.Image")));
             this.btnbaslat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnbaslat.Name = "btnbaslat";
-            this.btnbaslat.Size = new System.Drawing.Size(73, 24);
+            this.btnbaslat.Size = new System.Drawing.Size(62, 24);
             this.btnbaslat.Text = "Başlat";
             this.btnbaslat.Click += new System.EventHandler(this.btnbaslat_Click);
             // 
@@ -142,7 +144,7 @@
             this.btndurdur.Image = ((System.Drawing.Image)(resources.GetObject("btndurdur.Image")));
             this.btndurdur.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btndurdur.Name = "btndurdur";
-            this.btndurdur.Size = new System.Drawing.Size(79, 24);
+            this.btndurdur.Size = new System.Drawing.Size(68, 24);
             this.btndurdur.Text = "Durdur";
             this.btndurdur.Click += new System.EventHandler(this.btndurdur_Click);
             // 
@@ -151,7 +153,7 @@
             this.btnlogtemizle.Image = ((System.Drawing.Image)(resources.GetObject("btnlogtemizle.Image")));
             this.btnlogtemizle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnlogtemizle.Name = "btnlogtemizle";
-            this.btnlogtemizle.Size = new System.Drawing.Size(134, 24);
+            this.btnlogtemizle.Size = new System.Drawing.Size(109, 24);
             this.btnlogtemizle.Text = "Logları Temizle";
             this.btnlogtemizle.Click += new System.EventHandler(this.btnlogtemizle_Click);
             // 
@@ -160,7 +162,7 @@
             this.btnlogac.Image = ((System.Drawing.Image)(resources.GetObject("btnlogac.Image")));
             this.btnlogac.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnlogac.Name = "btnlogac";
-            this.btnlogac.Size = new System.Drawing.Size(79, 24);
+            this.btnlogac.Size = new System.Drawing.Size(68, 24);
             this.btnlogac.Text = "Log Aç";
             this.btnlogac.Click += new System.EventHandler(this.btnlogac_Click);
             // 
@@ -169,7 +171,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(134, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(110, 24);
             this.toolStripButton1.Text = "Ayarları Kaydet";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -183,14 +185,14 @@
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(170, 24);
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(141, 24);
             this.toolStripSplitButton1.Text = "Manuel Aktarımlar";
             // 
             // stokKartlarıAktarToolStripMenuItem
             // 
             this.stokKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("stokKartlarıAktarToolStripMenuItem.Image")));
             this.stokKartlarıAktarToolStripMenuItem.Name = "stokKartlarıAktarToolStripMenuItem";
-            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.stokKartlarıAktarToolStripMenuItem.Text = "Stok Kartları Aktar";
             this.stokKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.stokKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -198,18 +200,35 @@
             // 
             this.depoKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("depoKartlarıAktarToolStripMenuItem.Image")));
             this.depoKartlarıAktarToolStripMenuItem.Name = "depoKartlarıAktarToolStripMenuItem";
-            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.depoKartlarıAktarToolStripMenuItem.Text = "Depo Kartları Aktar";
             this.depoKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.depoKartlarıAktarToolStripMenuItem_Click);
+            // 
+            // btnalis
+            // 
+            this.btnalis.Image = ((System.Drawing.Image)(resources.GetObject("btnalis.Image")));
+            this.btnalis.Name = "btnalis";
+            this.btnalis.Size = new System.Drawing.Size(173, 22);
+            this.btnalis.Text = "Alış Irsaliye Aktar";
+            this.btnalis.Click += new System.EventHandler(this.btnalis_Click);
+            // 
+            // btnsatis
+            // 
+            this.btnsatis.Image = ((System.Drawing.Image)(resources.GetObject("btnsatis.Image")));
+            this.btnsatis.Name = "btnsatis";
+            this.btnsatis.Size = new System.Drawing.Size(173, 22);
+            this.btnsatis.Text = "Satış Irsaliye Aktar";
+            this.btnsatis.Click += new System.EventHandler(this.btnsatis_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatu});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 425);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 344);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 25);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(600, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -217,16 +236,17 @@
             // 
             this.lblStatu.Name = "lblStatu";
             this.lblStatu.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblStatu.Size = new System.Drawing.Size(18, 20);
+            this.lblStatu.Size = new System.Drawing.Size(16, 17);
             this.lblStatu.Text = "...";
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 296);
+            this.panel1.Location = new System.Drawing.Point(0, 239);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 129);
+            this.panel1.Size = new System.Drawing.Size(600, 105);
             this.panel1.TabIndex = 2;
             // 
             // richTextBox1
@@ -234,23 +254,27 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Info;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(800, 129);
+            this.richTextBox1.Size = new System.Drawing.Size(600, 105);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 293);
+            this.splitter1.Location = new System.Drawing.Point(0, 237);
+            this.splitter1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(800, 3);
+            this.splitter1.Size = new System.Drawing.Size(600, 2);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label15);
+            this.panel2.Controls.Add(this.txtIrsaliyeNo);
             this.panel2.Controls.Add(this.textCreateUser);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.textCreateUserId);
@@ -284,39 +308,44 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 27);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 266);
+            this.panel2.Size = new System.Drawing.Size(600, 210);
             this.panel2.TabIndex = 4;
             // 
             // textCreateUser
             // 
-            this.textCreateUser.Location = new System.Drawing.Point(112, 202);
+            this.textCreateUser.Location = new System.Drawing.Point(84, 164);
+            this.textCreateUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textCreateUser.Name = "textCreateUser";
-            this.textCreateUser.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUser.Size = new System.Drawing.Size(104, 20);
             this.textCreateUser.TabIndex = 32;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 205);
+            this.label14.Location = new System.Drawing.Point(9, 167);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 17);
+            this.label14.Size = new System.Drawing.Size(64, 13);
             this.label14.TabIndex = 31;
             this.label14.Text = "Kullanıcı Adı";
             // 
             // textCreateUserId
             // 
-            this.textCreateUserId.Location = new System.Drawing.Point(112, 174);
+            this.textCreateUserId.Location = new System.Drawing.Point(84, 141);
+            this.textCreateUserId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textCreateUserId.Name = "textCreateUserId";
-            this.textCreateUserId.Size = new System.Drawing.Size(137, 22);
+            this.textCreateUserId.Size = new System.Drawing.Size(104, 20);
             this.textCreateUserId.TabIndex = 30;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 177);
+            this.label11.Location = new System.Drawing.Point(9, 144);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(97, 17);
+            this.label11.Size = new System.Drawing.Size(74, 13);
             this.label11.TabIndex = 29;
             this.label11.Text = "Kullanıcı Kodu";
             // 
@@ -326,10 +355,11 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(563, 27);
+            this.listView1.Location = new System.Drawing.Point(422, 22);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(234, 233);
+            this.listView1.Size = new System.Drawing.Size(176, 190);
             this.listView1.TabIndex = 28;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -343,9 +373,10 @@
             // checkOtostart
             // 
             this.checkOtostart.AutoSize = true;
-            this.checkOtostart.Location = new System.Drawing.Point(417, 176);
+            this.checkOtostart.Location = new System.Drawing.Point(313, 143);
+            this.checkOtostart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkOtostart.Name = "checkOtostart";
-            this.checkOtostart.Size = new System.Drawing.Size(128, 21);
+            this.checkOtostart.Size = new System.Drawing.Size(99, 17);
             this.checkOtostart.TabIndex = 27;
             this.checkOtostart.Text = "Otomatik başlat";
             this.checkOtostart.UseVisualStyleBackColor = true;
@@ -354,9 +385,10 @@
             // 
             this.btndepo.Image = ((System.Drawing.Image)(resources.GetObject("btndepo.Image")));
             this.btndepo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btndepo.Location = new System.Drawing.Point(563, 1);
+            this.btndepo.Location = new System.Drawing.Point(422, 1);
+            this.btndepo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btndepo.Name = "btndepo";
-            this.btndepo.Size = new System.Drawing.Size(234, 25);
+            this.btndepo.Size = new System.Drawing.Size(176, 20);
             this.btndepo.TabIndex = 26;
             this.btndepo.Text = "Listeyi Güncelle";
             this.btndepo.UseVisualStyleBackColor = true;
@@ -364,14 +396,15 @@
             // 
             // numBranchId
             // 
-            this.numBranchId.Location = new System.Drawing.Point(417, 148);
+            this.numBranchId.Location = new System.Drawing.Point(313, 120);
+            this.numBranchId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numBranchId.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
             this.numBranchId.Name = "numBranchId";
-            this.numBranchId.Size = new System.Drawing.Size(93, 22);
+            this.numBranchId.Size = new System.Drawing.Size(70, 20);
             this.numBranchId.TabIndex = 25;
             this.numBranchId.Value = new decimal(new int[] {
             1421,
@@ -382,22 +415,24 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(299, 150);
+            this.label13.Location = new System.Drawing.Point(224, 122);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(123, 17);
+            this.label13.Size = new System.Drawing.Size(92, 13);
             this.label13.TabIndex = 24;
             this.label13.Text = "İş yeri Id (Branch):";
             // 
             // numCoId
             // 
-            this.numCoId.Location = new System.Drawing.Point(417, 120);
+            this.numCoId.Location = new System.Drawing.Point(313, 98);
+            this.numCoId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numCoId.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
             this.numCoId.Name = "numCoId";
-            this.numCoId.Size = new System.Drawing.Size(93, 22);
+            this.numCoId.Size = new System.Drawing.Size(70, 20);
             this.numCoId.TabIndex = 23;
             this.numCoId.Value = new decimal(new int[] {
             1421,
@@ -408,18 +443,20 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(299, 122);
+            this.label12.Location = new System.Drawing.Point(224, 99);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(93, 17);
+            this.label12.Size = new System.Drawing.Size(69, 13);
             this.label12.TabIndex = 22;
             this.label12.Text = "Firma Id (Co):";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 150);
+            this.label10.Location = new System.Drawing.Point(9, 122);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(92, 17);
+            this.label10.Size = new System.Drawing.Size(70, 13);
             this.label10.TabIndex = 19;
             this.label10.Text = "Log Seviyesi:";
             // 
@@ -433,102 +470,114 @@
             "Uyarı Mesajları",
             "Bilgi Mesajları",
             "Tüm Loglar"});
-            this.comboTrace.Location = new System.Drawing.Point(112, 147);
+            this.comboTrace.Location = new System.Drawing.Point(84, 119);
+            this.comboTrace.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboTrace.Name = "comboTrace";
-            this.comboTrace.Size = new System.Drawing.Size(137, 24);
+            this.comboTrace.Size = new System.Drawing.Size(104, 21);
             this.comboTrace.TabIndex = 18;
             // 
             // textSqlPassword
             // 
-            this.textSqlPassword.Location = new System.Drawing.Point(417, 89);
+            this.textSqlPassword.Location = new System.Drawing.Point(313, 72);
+            this.textSqlPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textSqlPassword.Name = "textSqlPassword";
             this.textSqlPassword.PasswordChar = '#';
-            this.textSqlPassword.Size = new System.Drawing.Size(137, 22);
+            this.textSqlPassword.Size = new System.Drawing.Size(104, 20);
             this.textSqlPassword.TabIndex = 17;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(317, 92);
+            this.label9.Location = new System.Drawing.Point(238, 75);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(77, 17);
+            this.label9.Size = new System.Drawing.Size(58, 13);
             this.label9.TabIndex = 16;
             this.label9.Text = "Sql Parola:";
             // 
             // textSqlUser
             // 
-            this.textSqlUser.Location = new System.Drawing.Point(417, 61);
+            this.textSqlUser.Location = new System.Drawing.Point(313, 50);
+            this.textSqlUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textSqlUser.Name = "textSqlUser";
-            this.textSqlUser.Size = new System.Drawing.Size(137, 22);
+            this.textSqlUser.Size = new System.Drawing.Size(104, 20);
             this.textSqlUser.TabIndex = 15;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(317, 64);
+            this.label8.Location = new System.Drawing.Point(238, 52);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(88, 17);
+            this.label8.Size = new System.Drawing.Size(67, 13);
             this.label8.TabIndex = 14;
             this.label8.Text = "Sql Kullanici:";
             // 
             // textSqlDb
             // 
-            this.textSqlDb.Location = new System.Drawing.Point(417, 33);
+            this.textSqlDb.Location = new System.Drawing.Point(313, 27);
+            this.textSqlDb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textSqlDb.Name = "textSqlDb";
-            this.textSqlDb.Size = new System.Drawing.Size(137, 22);
+            this.textSqlDb.Size = new System.Drawing.Size(104, 20);
             this.textSqlDb.TabIndex = 13;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(317, 36);
+            this.label7.Location = new System.Drawing.Point(238, 29);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 17);
+            this.label7.Size = new System.Drawing.Size(42, 13);
             this.label7.TabIndex = 12;
             this.label7.Text = "Sql Db:";
             // 
             // textSqlHost
             // 
-            this.textSqlHost.Location = new System.Drawing.Point(417, 7);
+            this.textSqlHost.Location = new System.Drawing.Point(313, 6);
+            this.textSqlHost.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textSqlHost.Name = "textSqlHost";
-            this.textSqlHost.Size = new System.Drawing.Size(137, 22);
+            this.textSqlHost.Size = new System.Drawing.Size(104, 20);
             this.textSqlHost.TabIndex = 11;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(317, 10);
+            this.label6.Location = new System.Drawing.Point(238, 8);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 17);
+            this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "Sql Host:";
             // 
             // textOraDb
             // 
-            this.textOraDb.Location = new System.Drawing.Point(112, 119);
+            this.textOraDb.Location = new System.Drawing.Point(84, 97);
+            this.textOraDb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textOraDb.Name = "textOraDb";
-            this.textOraDb.Size = new System.Drawing.Size(137, 22);
+            this.textOraDb.Size = new System.Drawing.Size(104, 20);
             this.textOraDb.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 122);
+            this.label5.Location = new System.Drawing.Point(9, 99);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 17);
+            this.label5.Size = new System.Drawing.Size(58, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "Oracle Db:";
             // 
             // numOraPort
             // 
-            this.numOraPort.Location = new System.Drawing.Point(112, 63);
+            this.numOraPort.Location = new System.Drawing.Point(84, 51);
+            this.numOraPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numOraPort.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
             this.numOraPort.Name = "numOraPort";
-            this.numOraPort.Size = new System.Drawing.Size(93, 22);
+            this.numOraPort.Size = new System.Drawing.Size(70, 20);
             this.numOraPort.TabIndex = 7;
             this.numOraPort.Value = new decimal(new int[] {
             1421,
@@ -538,21 +587,24 @@
             // 
             // textOraService
             // 
-            this.textOraService.Location = new System.Drawing.Point(112, 91);
+            this.textOraService.Location = new System.Drawing.Point(84, 74);
+            this.textOraService.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textOraService.Name = "textOraService";
-            this.textOraService.Size = new System.Drawing.Size(137, 22);
+            this.textOraService.Size = new System.Drawing.Size(104, 20);
             this.textOraService.TabIndex = 5;
             // 
             // textOraHost
             // 
-            this.textOraHost.Location = new System.Drawing.Point(112, 35);
+            this.textOraHost.Location = new System.Drawing.Point(84, 28);
+            this.textOraHost.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textOraHost.Name = "textOraHost";
-            this.textOraHost.Size = new System.Drawing.Size(137, 22);
+            this.textOraHost.Size = new System.Drawing.Size(104, 20);
             this.textOraHost.TabIndex = 3;
             // 
             // numTcpPort
             // 
-            this.numTcpPort.Location = new System.Drawing.Point(112, 7);
+            this.numTcpPort.Location = new System.Drawing.Point(84, 6);
+            this.numTcpPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numTcpPort.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -564,7 +616,7 @@
             0,
             0});
             this.numTcpPort.Name = "numTcpPort";
-            this.numTcpPort.Size = new System.Drawing.Size(93, 22);
+            this.numTcpPort.Size = new System.Drawing.Size(70, 20);
             this.numTcpPort.TabIndex = 1;
             this.numTcpPort.Value = new decimal(new int[] {
             9999,
@@ -575,36 +627,40 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 65);
+            this.label4.Location = new System.Drawing.Point(9, 53);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 17);
+            this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Oracle Port:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 94);
+            this.label3.Location = new System.Drawing.Point(9, 76);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(97, 17);
+            this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Oracle Servis:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 38);
+            this.label2.Location = new System.Drawing.Point(9, 31);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 17);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Oracle Host:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(9, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 17);
+            this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tcp Portu:";
             // 
@@ -618,27 +674,29 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // btnalis
+            // txtIrsaliyeNo
             // 
-            this.btnalis.Image = ((System.Drawing.Image)(resources.GetObject("btnalis.Image")));
-            this.btnalis.Name = "btnalis";
-            this.btnalis.Size = new System.Drawing.Size(216, 26);
-            this.btnalis.Text = "Alış Irsaliye Aktar";
-            this.btnalis.Click += new System.EventHandler(this.btnalis_Click);
+            this.txtIrsaliyeNo.Location = new System.Drawing.Point(313, 163);
+            this.txtIrsaliyeNo.Name = "txtIrsaliyeNo";
+            this.txtIrsaliyeNo.Size = new System.Drawing.Size(104, 20);
+            this.txtIrsaliyeNo.TabIndex = 33;
+            this.txtIrsaliyeNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIrsaliyeNo_KeyDown);
             // 
-            // btnsatis
+            // label15
             // 
-            this.btnsatis.Image = ((System.Drawing.Image)(resources.GetObject("btnsatis.Image")));
-            this.btnsatis.Name = "btnsatis";
-            this.btnsatis.Size = new System.Drawing.Size(216, 26);
-            this.btnsatis.Text = "Satış Irsaliye Aktar";
-            this.btnsatis.Click += new System.EventHandler(this.btnsatis_Click);
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(243, 170);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(62, 13);
+            this.label15.TabIndex = 34;
+            this.label15.Text = "Irsaliye No :";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
@@ -646,6 +704,7 @@
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Oracle Listener";
@@ -723,6 +782,8 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ToolStripMenuItem btnalis;
         private System.Windows.Forms.ToolStripMenuItem btnsatis;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtIrsaliyeNo;
     }
 }
 

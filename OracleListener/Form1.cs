@@ -212,10 +212,7 @@ ORDER BY WH.WHOUSE_CODE");
             GetDepoList();
             CheckItemMField();
 
-            using (var sync = new DataSynchronization())
-            {
-                sync.AlisIrsaliyeSynchronization("329286");
-            }
+
 
         }
 
@@ -488,6 +485,36 @@ ORDER BY WH.WHOUSE_CODE");
             {
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        private void txtIrsaliyeNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    using (var sync = new DataSynchronization())
+                    {
+                        using (OracleProvider db = new OracleProvider())
+                        {
+                            var count = db.ExecuteScalar($"SELECT COUNT(*) ROW_COUNT FROM ALL_TAB_COLUMNS WHERE TABLE_NAME = 'INVT_ITEM_M' AND COLUMN_NAME = 'ZZ_DOCENTETE_ID'");
+                            if (count != null)
+                            {
+                                db.Execute(@"UPDATE INVT_ITEM_M SET ZZ_DOCENTETE_ID = NULL WHERE ITEM_M_ID = " + txtIrsaliyeNo.Text + "");
+                            }
+                        }
+                        sync.AlisIrsaliyeSynchronization(txtIrsaliyeNo.Text);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+
         }
     }
 }
