@@ -30,7 +30,7 @@ namespace OracleListener.Data
             string condition = string.Empty;
             if (!string.IsNullOrWhiteSpace(stok))
                 condition = $" AND IT.ITEM_ID = '{stok}' ";
-            
+
             var itemlist = Select<StokModel>($@"SELECT IT.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,IT.UNIT_ID,UN.UNIT_CODE,
 CASE WHEN SALES_PLN.HESAPPLANI_CODE IS NULL THEN TO_CHAR(SALES_ACC.ACC_CODE) ELSE TO_CHAR(SALES_PLN.HESAPPLANI_CODE) END SALES_ACC_CODE,
 CASE WHEN PURCHASE_PLN.HESAPPLANI_CODE IS NULL THEN TO_CHAR(PURCHASE_ACC.ACC_CODE) ELSE TO_CHAR(PURCHASE_PLN.HESAPPLANI_CODE) END PURCHASE_ACC_CODE
@@ -149,13 +149,18 @@ INSERT INTO F_DEPOTEMPL (DE_No,DP_No,DP_Code,DP_Intitule,DP_Zone,DP_Type,cbCreat
             var irslist = Select<IrsaliyeModel>($@"
 SELECT M.ITEM_M_ID,M.DOC_NO,M.DOC_DATE,EN.ENTITY_ID,ENTITY_CODE,EN.ENTITY_NAME,M.PURCHASE_SALES,
 CASE WHEN M.PURCHASE_SALES = 2 THEN 'SATIS' ELSE 'ALIS' END ALIS_SATIS,CT.CAT_CODE,
-D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE 
+D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE,
+SALES_PLN.HESAPPLANI_CODE SALES_ACC_CODE
 FROM UYUMSOFT.INVT_ITEM_M M INNER JOIN UYUMSOFT.FIND_ENTITY EN ON M.ENTITY_ID = EN.ENTITY_ID LEFT JOIN 
 UYUMSOFT.GNLD_CATEGORY CT ON M.CAT_CODE1_ID = CT.CAT_CODE_ID INNER JOIN 
 UYUMSOFT.INVT_ITEM_D D ON D.ITEM_M_ID = M.ITEM_M_ID INNER JOIN 
-UYUMSOFT.INVD_ITEM IT ON D.ITEM_ID = IT.ITEM_ID INNER JOIN INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID
-WHERE ( 1 = 1 ) {condition} AND M.ZZ_DOCENTETE_ID IS NULL AND CAST(TO_CHAR(M.DOC_DATE,'YY') AS NUMBER) = {DateTime.Now::yy}
+UYUMSOFT.INVD_ITEM IT ON D.ITEM_ID = IT.ITEM_ID INNER JOIN INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID LEFT JOIN
+UYUMSOFT.INVD_BRANCH_ITEM BT ON BT.ITEM_ID = IT.ITEM_ID AND BT.BRANCH_ID = D.BRANCH_ID LEFT JOIN
+INVD_ITEM_ACC_INTG INTG ON INTG.I_ACC_INTG_TYPE_CODE_ID = BT.I_ACC_INTG_TYPE_CODE_ID AND INTG.BRANCH_ID = BT.BRANCH_ID AND INTG.CO_ID = BT.CO_ID LEFT JOIN
+FIND_ACC SALES_ACC ON INTG.SALES_ACC_ID = SALES_ACC.ACC_ID LEFT JOIN ZFIND_SAGE_HESAPPLANI SALES_PLN ON SALES_ACC.ACC_CODE = SALES_PLN.ACC_CODE
+WHERE ( 1 = 1 ) {condition} AND M.ZZ_DOCENTETE_ID IS NULL AND CAST(TO_CHAR(M.DOC_DATE,'YY') AS NUMBER) = {DateTime.Now:yy}
 AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Default.CoId}' AND M.INVOICE_STATUS = 3 AND CT.CAT_CODE = 'R'");
+
             if (irslist != null && irslist.Count > 0)
             {
                 SqlParameter[] parameters = new SqlParameter[] {
@@ -168,10 +173,11 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
                     new SqlParameter("@AR_Ref", irslist[0].ITEM_CODE.GetParamValue()),
                     new SqlParameter("@DL_Design", irslist[0].ITEM_NAME.GetParamValue()),
                     new SqlParameter("@DL_Qte", irslist[0].QTY),
-                    new SqlParameter("@UnitPrice", irslist[0].UNIT_PRICE)
+                    new SqlParameter("@UnitPrice", irslist[0].UNIT_PRICE),
+                    new SqlParameter("@ACP_Satis", irslist[0].SALES_ACC_CODE.GetParamValue())
             };
 
-                var cbMarq = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_SATIS @DO_Piece,@DO_Date,@ENTITY_ID,@DO_Tiers,@CT_Intitule,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice", parameters);
+                var cbMarq = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_SATIS @DO_Piece,@DO_Date,@ENTITY_ID,@DO_Tiers,@CT_Intitule,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice,@ACP_Satis", parameters);
                 if (cbMarq != null)
                 {
                     if (!Execute($@"UPDATE ""UYUMSOFT"".""INVT_ITEM_M"" SET ""ZZ_DOCENTETE_ID"" = {cbMarq} WHERE ITEM_M_ID = {irslist[0].ITEM_M_ID}"))
@@ -215,10 +221,14 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
                     if (cbMarq != null)
                     {
                         var detlist = Select<IrsaliyeModel>($@"
-SELECT D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE 
+SELECT D.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,D.UNIT_ID,UN.UNIT_CODE,D.QTY,D.WHOUSE_ID,D.UNIT_PRICE,
+CASE WHEN PURCHASE_PLN.HESAPPLANI_CODE IS NULL THEN TO_CHAR(PURCHASE_ACC.ACC_CODE) ELSE TO_CHAR(PURCHASE_PLN.HESAPPLANI_CODE) END PURCHASE_ACC_CODE
 FROM UYUMSOFT.INVT_ITEM_D D LEFT JOIN 
 UYUMSOFT.INVD_ITEM IT ON D.ITEM_ID = IT.ITEM_ID INNER JOIN 
-INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID
+INVD_UNIT UN ON D.UNIT_ID = UN.UNIT_ID INNER JOIN INVD_BRANCH_ITEM BT ON BT.ITEM_ID = IT.ITEM_ID AND BT.BRANCH_ID = D.BRANCH_ID INNER JOIN 
+INVD_ITEM_ACC_INTG INTG ON INTG.I_ACC_INTG_TYPE_CODE_ID = BT.I_ACC_INTG_TYPE_CODE_ID AND INTG.BRANCH_ID = BT.BRANCH_ID AND INTG.CO_ID = BT.CO_ID INNER JOIN
+FIND_ACC PURCHASE_ACC ON INTG.PURCHASE_ACC_ID = PURCHASE_ACC.ACC_ID INNER JOIN
+ZFIND_SAGE_HESAPPLANI PURCHASE_PLN ON PURCHASE_ACC.ACC_CODE = PURCHASE_PLN.ACC_CODE
 WHERE D.ITEM_M_ID = {irslist[0].ITEM_M_ID}");
 
                         if (detlist != null && detlist.Count > 0)
@@ -233,9 +243,10 @@ WHERE D.ITEM_M_ID = {irslist[0].ITEM_M_ID}");
                                 new SqlParameter("@AR_Ref", detlist[i].ITEM_CODE.GetParamValue()),
                                 new SqlParameter("@DL_Design", detlist[i].ITEM_NAME.GetParamValue()),
                                 new SqlParameter("@DL_Qte", detlist[i].QTY),
-                                new SqlParameter("@UnitPrice", detlist[i].UNIT_PRICE)
+                                new SqlParameter("@UnitPrice", detlist[i].UNIT_PRICE),
+                                new SqlParameter("@ACP_Alis", detlist[i].PURCHASE_ACC_CODE.GetParamValue())
                             };
-                                var cbMarqd = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY @DO_Piece,@DO_Date,@CT_Num,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice", parametersd);
+                                var cbMarqd = sqlClient.ExecuteScalar("EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY @DO_Piece,@DO_Date,@CT_Num,@DE_No,@AR_Ref,@DL_Design,@DL_Qte,@UnitPrice,@ACP_Alis", parametersd);
                                 if (cbMarqd == null)
                                 {
                                     sqlClient.Rollback();
@@ -250,7 +261,7 @@ WHERE D.ITEM_M_ID = {irslist[0].ITEM_M_ID}");
                         }
                     }
 
-                    }
+                }
 
                 sqlClient.Commit();
             }

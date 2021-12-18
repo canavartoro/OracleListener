@@ -1,4 +1,6 @@
-﻿ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY](
+﻿
+
+ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY](
 	@DO_Piece varchar(13), -- BELGE NUMARASI
 	@DO_Date datetime, -- BELGE TARIHI
 	@CT_Num VARCHAR(17), -- CARI KODU
@@ -6,7 +8,8 @@
 	@AR_Ref varchar(19), -- STOK KODU
 	@DL_Design varchar(69), -- STOK ADI
 	@DL_Qte numeric(24, 6), --MIKTAR
-	@UnitPrice FLOAT
+	@UnitPrice FLOAT,
+	@ACP_Alis VARCHAR(13)
 )
 --EXECUTE dbo.ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY 'BL146941','2021-01-10 00:00:00',3121,'F014252','KABLO UCU- IZOLE 4-6/1 KUTU 100 ADET',1,14000
 AS BEGIN
@@ -165,7 +168,7 @@ DECLARE
 	@DL_Remise03REM_Type smallint 	=	0,
 	@DL_PrixUnitaire numeric(24, 6) 	=	@UnitPrice,
 	@DL_PUBC numeric(24, 6) 	=	@UnitPrice,
-	@DL_Taxe1 numeric(24, 6) 	=	0,
+	@DL_Taxe1 numeric(24, 6) 	=	18,
 	@DL_TypeTaux1 smallint 	=	0,
 	@DL_TypeTaxe1 smallint 	=	0,
 	@DL_Taxe2 numeric(24, 6) 	=	0,
@@ -209,7 +212,7 @@ DECLARE
 	@DL_QteRessource int 	=	0,
 	@DL_DateAvancement DATETIME  =	'1753-01-01 00:00:00',
 	@PF_Num varchar(9) 	=	'',
-	@DL_CodeTaxe1 varchar(5) 	=	NULL,
+	@DL_CodeTaxe1 varchar(5) 	=	'TDA',
 	@DL_CodeTaxe2 varchar(5) 	=	NULL,
 	@DL_CodeTaxe3 varchar(5) 	=	NULL,
 	@DL_PieceOFProd int 	=	0,
@@ -228,9 +231,10 @@ DECLARE
 	@F_ARTSTOCK_cbMarq INT = NULL,
 	@AS_QteSto numeric(24,6) = NULL,
 	@AS_MontSto numeric(24,6) = NULL,
-	@ERROR_MSG NVARCHAR(MAX) = NULL
+	@ERROR_MSG NVARCHAR(MAX) = NULL,
+	@ACP_Satis VARCHAR(13) = NULL
 
-	EXECUTE [dbo].[ZZ_SP_CREATE_ARTICLE] 0,@AR_Ref,@DL_Design,0,'TON'
+	EXECUTE [dbo].[ZZ_SP_CREATE_ARTICLE] 0,@AR_Ref,@DL_Design,0,'TON',@ACP_Alis, @ACP_Satis
 
 	IF @@ERROR <> 0 BEGIN
 		RETURN
@@ -284,3 +288,4 @@ COMMIT TRANSACTION
 SELECT @cbMarq ID
 
 END
+

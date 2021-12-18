@@ -226,7 +226,22 @@ ORDER BY WH.WHOUSE_CODE");
             GetDepoList();
             CheckItemMField();
 
-
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                using (var data = new DataSynchronization())
+                {
+                    data.SatisIrsaliyeSynchronization("343561");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.E(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
 
         }
 

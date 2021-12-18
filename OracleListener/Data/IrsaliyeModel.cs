@@ -27,6 +27,8 @@ namespace OracleListener.Data
         public decimal QTY { get; set; }
         public decimal UNIT_PRICE { get; set; }
         public int WHOUSE_ID { get; set; }
+        public string PURCHASE_ACC_CODE { get; set; }
+        public string SALES_ACC_CODE { get; set; }
     }
 }
 

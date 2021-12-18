@@ -43,6 +43,7 @@
             this.depoKartlarıAktarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnalis = new System.Windows.Forms.ToolStripMenuItem();
             this.btnsatis = new System.Windows.Forms.ToolStripMenuItem();
+            this.hesapPlanlarıToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatu = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -85,7 +86,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerStart = new System.Windows.Forms.Timer(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.hesapPlanlarıToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -125,7 +125,7 @@
             this.toolStripSplitButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(901, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -194,7 +194,7 @@
             // 
             this.stokKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("stokKartlarıAktarToolStripMenuItem.Image")));
             this.stokKartlarıAktarToolStripMenuItem.Name = "stokKartlarıAktarToolStripMenuItem";
-            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.stokKartlarıAktarToolStripMenuItem.Text = "Stok Kartları Aktar";
             this.stokKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.stokKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -202,7 +202,7 @@
             // 
             this.depoKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("depoKartlarıAktarToolStripMenuItem.Image")));
             this.depoKartlarıAktarToolStripMenuItem.Name = "depoKartlarıAktarToolStripMenuItem";
-            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.depoKartlarıAktarToolStripMenuItem.Text = "Depo Kartları Aktar";
             this.depoKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.depoKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -210,7 +210,7 @@
             // 
             this.btnalis.Image = ((System.Drawing.Image)(resources.GetObject("btnalis.Image")));
             this.btnalis.Name = "btnalis";
-            this.btnalis.Size = new System.Drawing.Size(216, 26);
+            this.btnalis.Size = new System.Drawing.Size(212, 26);
             this.btnalis.Text = "Alış Irsaliye Aktar";
             this.btnalis.Click += new System.EventHandler(this.btnalis_Click);
             // 
@@ -218,19 +218,26 @@
             // 
             this.btnsatis.Image = ((System.Drawing.Image)(resources.GetObject("btnsatis.Image")));
             this.btnsatis.Name = "btnsatis";
-            this.btnsatis.Size = new System.Drawing.Size(216, 26);
+            this.btnsatis.Size = new System.Drawing.Size(212, 26);
             this.btnsatis.Text = "Satış Irsaliye Aktar";
             this.btnsatis.Click += new System.EventHandler(this.btnsatis_Click);
+            // 
+            // hesapPlanlarıToolStripMenuItem
+            // 
+            this.hesapPlanlarıToolStripMenuItem.Name = "hesapPlanlarıToolStripMenuItem";
+            this.hesapPlanlarıToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.hesapPlanlarıToolStripMenuItem.Text = "Hesap Planları";
+            this.hesapPlanlarıToolStripMenuItem.Click += new System.EventHandler(this.hesapPlanlarıToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatu});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 425);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 486);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(800, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(901, 25);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -245,10 +252,10 @@
             // 
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 296);
+            this.panel1.Location = new System.Drawing.Point(0, 357);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 129);
+            this.panel1.Size = new System.Drawing.Size(901, 129);
             this.panel1.TabIndex = 2;
             // 
             // richTextBox1
@@ -259,17 +266,17 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(800, 129);
+            this.richTextBox1.Size = new System.Drawing.Size(901, 129);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 294);
+            this.splitter1.Location = new System.Drawing.Point(0, 355);
             this.splitter1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(800, 2);
+            this.splitter1.Size = new System.Drawing.Size(901, 2);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
@@ -312,7 +319,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 27);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 267);
+            this.panel2.Size = new System.Drawing.Size(901, 328);
             this.panel2.TabIndex = 4;
             // 
             // label15
@@ -327,7 +334,7 @@
             // txtIrsaliyeNo
             // 
             this.txtIrsaliyeNo.Location = new System.Drawing.Point(417, 201);
-            this.txtIrsaliyeNo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtIrsaliyeNo.Margin = new System.Windows.Forms.Padding(4);
             this.txtIrsaliyeNo.Name = "txtIrsaliyeNo";
             this.txtIrsaliyeNo.Size = new System.Drawing.Size(137, 22);
             this.txtIrsaliyeNo.TabIndex = 33;
@@ -377,7 +384,7 @@
             this.listView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(233, 233);
+            this.listView1.Size = new System.Drawing.Size(338, 297);
             this.listView1.TabIndex = 28;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -680,18 +687,11 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // hesapPlanlarıToolStripMenuItem
-            // 
-            this.hesapPlanlarıToolStripMenuItem.Name = "hesapPlanlarıToolStripMenuItem";
-            this.hesapPlanlarıToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.hesapPlanlarıToolStripMenuItem.Text = "Hesap Planları";
-            this.hesapPlanlarıToolStripMenuItem.Click += new System.EventHandler(this.hesapPlanlarıToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(901, 511);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);

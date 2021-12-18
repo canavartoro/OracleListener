@@ -5,8 +5,8 @@ ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_ARTICLE](
 	@ITEM_NAME NVARCHAR(150),
 	@UNIT_ID INTEGER,
 	@UNIT_CODE NVARCHAR(10),
-	@ACP_ComptaCPT_CompteG VARCHAR(13),
-	@ACP_ComptaCPT_CompteA VARCHAR(13) 
+	@ACP_Alis VARCHAR(13),
+	@ACP_Satis VARCHAR(13) 
 )
 AS 
 --EXECUTE dbo.ZZ_SP_CREATE_ARTICLE 120933, '04 017', 'BETON KATKISI-CHRYSO DELTA 4540', 164, 'KG', '17800000', '17800000'
@@ -118,10 +118,10 @@ DECLARE
 @cbCreationUser uniqueidentifier = '77384016-921F-472F-B56D-1D563B7DDF3C',
 @AR_InterdireCommande smallint = 0,
 @AR_Exclure smallint = 0,
-@ACP_Type smallint = 1,
+@ACP_Type smallint = 1,/*1 Alis, 0 Satis   */
 @ACP_Champ smallint = 1,
---@ACP_ComptaCPT_CompteG varchar(13) = '60110000',
---@ACP_ComptaCPT_CompteA varchar(13) = NULL,
+@ACP_ComptaCPT_CompteG varchar(13) = NULL,
+@ACP_ComptaCPT_CompteA varchar(13) = NULL,
 @ACP_ComptaCPT_Taxe1 varchar(5) = NULL,
 @ACP_ComptaCPT_Taxe2 varchar(5) = NULL,
 @ACP_ComptaCPT_Taxe3 varchar(5) = NULL,
@@ -152,12 +152,38 @@ END ELSE BEGIN
 	
 	SELECT @ID = cbMarq FROM @TableMarq;
 
-	INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
-	VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
+	IF @ACP_Alis IS NOT NULL AND EXISTS (SELECT * FROM dbo.F_COMPTEG WITH (NOLOCK) WHERE CG_Num = @ACP_Alis) BEGIN
+
+		SELECT @ACP_Type = 1, @ACP_Champ = 1, @ACP_ComptaCPT_CompteG = @ACP_Alis, @ACP_ComptaCPT_Taxe1 = NULL
+
+		INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
+		VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
+
+		SELECT @ACP_ComptaCPT_Taxe1 = 'TDA', @ACP_Champ = 2
+
+		INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
+		VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
+	END
+
+
+	IF @ACP_Satis IS NOT NULL AND EXISTS (SELECT * FROM dbo.F_COMPTEG WITH (NOLOCK) WHERE CG_Num = @ACP_Satis) BEGIN
+		SELECT @ACP_Type = 0, @ACP_Champ = 1, @ACP_ComptaCPT_CompteG = @ACP_Satis, @ACP_ComptaCPT_Taxe1 = NULL
+		
+		INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
+		VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
+
+		SELECT @ACP_ComptaCPT_Taxe1 = 'TCV', @ACP_Champ = 2
+		
+		INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
+		VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
+	END
 
 END
 
 END
+
+
+--select * from F_ARTCOMPTA nolock where AR_Ref = 'F008166'
 
 --SELECT * FROM dbo.F_COMPTEG
 
