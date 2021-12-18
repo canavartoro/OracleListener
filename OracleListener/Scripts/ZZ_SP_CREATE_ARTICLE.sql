@@ -1,17 +1,20 @@
-﻿--EXECUTE dbo.ZZ_SP_CREATE_ARTICLE 119906, '02 002', 'GRAVILLONS 5/15', 185, 'TON'	
-
+﻿
 ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_ARTICLE](
 	@ITEM_ID INTEGER,
 	@ITEM_CODE NVARCHAR(60),
 	@ITEM_NAME NVARCHAR(150),
 	@UNIT_ID INTEGER,
-	@UNIT_CODE NVARCHAR(10)
+	@UNIT_CODE NVARCHAR(10),
+	@ACP_ComptaCPT_CompteG VARCHAR(13),
+	@ACP_ComptaCPT_CompteA VARCHAR(13) 
 )
-AS BEGIN
+AS 
+--EXECUTE dbo.ZZ_SP_CREATE_ARTICLE 120933, '04 017', 'BETON KATKISI-CHRYSO DELTA 4540', 164, 'KG', '17800000', '17800000'
+BEGIN
 DECLARE 
 @AR_Ref varchar(19) = @ITEM_CODE,
 @AR_Design varchar(69) = @ITEM_NAME,
-@FA_CodeFamille varchar(11) = N'GRAV001',
+@FA_CodeFamille varchar(11) = N'ENT',
 @AR_Substitut varchar(19) = NULL,
 @AR_Raccourci varchar(7) = NULL,
 @AR_Garantie smallint = 0,
@@ -26,7 +29,7 @@ DECLARE
 @AR_Gamme1 smallint = 0,
 @AR_Gamme2 smallint = 0,
 @AR_SuiviStock smallint = 2,
-@AR_Nomencl smallint = 1,
+@AR_Nomencl smallint = 0,
 @AR_Stat01 varchar(21) = '',
 @AR_Stat02 varchar(21) = '',
 @AR_Stat03 varchar(21) = '',
@@ -114,7 +117,21 @@ DECLARE
 @cbCreation datetime = GETDATE(),
 @cbCreationUser uniqueidentifier = '77384016-921F-472F-B56D-1D563B7DDF3C',
 @AR_InterdireCommande smallint = 0,
-@AR_Exclure smallint = 0
+@AR_Exclure smallint = 0,
+@ACP_Type smallint = 1,
+@ACP_Champ smallint = 1,
+--@ACP_ComptaCPT_CompteG varchar(13) = '60110000',
+--@ACP_ComptaCPT_CompteA varchar(13) = NULL,
+@ACP_ComptaCPT_Taxe1 varchar(5) = NULL,
+@ACP_ComptaCPT_Taxe2 varchar(5) = NULL,
+@ACP_ComptaCPT_Taxe3 varchar(5) = NULL,
+@ACP_ComptaCPT_Date1 datetime = '1753-01-01 00:00:00',
+@ACP_ComptaCPT_Date2 datetime = '1753-01-01 00:00:00',
+@ACP_ComptaCPT_Date3 datetime = '1753-01-01 00:00:00',
+@ACP_ComptaCPT_TaxeAnc1 varchar(5) = NULL,
+@ACP_ComptaCPT_TaxeAnc2 varchar(5) = NULL,
+@ACP_ComptaCPT_TaxeAnc3 varchar(5) = NULL,
+@ACP_TypeFacture smallint = 0
 
 SELECT @AR_Ref = REPLACE(@ITEM_CODE,' ','')
 
@@ -135,7 +152,38 @@ END ELSE BEGIN
 	
 	SELECT @ID = cbMarq FROM @TableMarq;
 
+	INSERT INTO F_ARTCOMPTA (AR_Ref,ACP_Type,ACP_Champ,ACP_ComptaCPT_CompteG,ACP_ComptaCPT_CompteA,ACP_ComptaCPT_Taxe1,ACP_ComptaCPT_Taxe2,ACP_ComptaCPT_Taxe3,ACP_ComptaCPT_Date1,ACP_ComptaCPT_Date2,ACP_ComptaCPT_Date3,ACP_ComptaCPT_TaxeAnc1,ACP_ComptaCPT_TaxeAnc2,ACP_ComptaCPT_TaxeAnc3,ACP_TypeFacture,cbCreateur,cbCreationUser) --OUTPUT inserted.cbMarq INTO @TableMarq 
+	VALUES (@AR_Ref,@ACP_Type,@ACP_Champ,@ACP_ComptaCPT_CompteG,@ACP_ComptaCPT_CompteA,@ACP_ComptaCPT_Taxe1,@ACP_ComptaCPT_Taxe2,@ACP_ComptaCPT_Taxe3,@ACP_ComptaCPT_Date1,@ACP_ComptaCPT_Date2,@ACP_ComptaCPT_Date3,@ACP_ComptaCPT_TaxeAnc1,@ACP_ComptaCPT_TaxeAnc2,@ACP_ComptaCPT_TaxeAnc3,@ACP_TypeFacture,@cbCreateur,@cbCreationUser);
 
 END
 
 END
+
+--SELECT * FROM dbo.F_COMPTEG
+
+--dbo.F_ARTCOMPTA
+--(
+--	AR_Ref varchar(19) NOT NULL,
+--	cbAR_Ref  AS (CONVERT(varbinary(20),AR_Ref)),
+--	ACP_Type smallint NULL,
+--	ACP_Champ smallint NULL,
+--	ACP_ComptaCPT_CompteG varchar(13) NULL,
+--	ACP_ComptaCPT_CompteA varchar(13) NULL,
+--	ACP_ComptaCPT_Taxe1 varchar(5) NULL,
+--	ACP_ComptaCPT_Taxe2 varchar(5) NULL,
+--	ACP_ComptaCPT_Taxe3 varchar(5) NULL,
+--	ACP_ComptaCPT_Date1 datetime NULL,
+--	ACP_ComptaCPT_Date2 datetime NULL,
+--	ACP_ComptaCPT_Date3 datetime NULL,
+--	ACP_ComptaCPT_TaxeAnc1 varchar(5) NULL,
+--	ACP_ComptaCPT_TaxeAnc2 varchar(5) NULL,
+--	ACP_ComptaCPT_TaxeAnc3 varchar(5) NULL,
+--	ACP_TypeFacture smallint NULL,
+--	cbProt smallint NULL,
+--	cbMarq int IDENTITY(1,1) NOT NULL,
+--	cbCreateur char(4) NULL,
+--	cbModification datetime NULL,
+--	cbReplication int NULL,
+--	cbFlag smallint NULL,
+--	cbCreation datetime NULL,
+--	cbCreationUser uniqueidentifier NULL,

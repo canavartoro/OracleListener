@@ -16,5 +16,7 @@ namespace OracleListener.Data
         public string ITEM_NAME { get; set; }
         public int UNIT_ID { get; set; }
         public string UNIT_CODE { get; set; }
+        public string SALES_ACC_CODE { get; set; }
+        public string PURCHASE_ACC_CODE { get; set; }
     }
 }

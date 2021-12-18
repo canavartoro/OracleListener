@@ -516,5 +516,10 @@ ORDER BY WH.WHOUSE_CODE");
 
 
         }
+
+        private void hesapPlanlarıToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new FormHesapPlani().ShowDialog();
+        }
     }
 }

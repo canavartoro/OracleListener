@@ -30,25 +30,34 @@ namespace OracleListener.Data
             string condition = string.Empty;
             if (!string.IsNullOrWhiteSpace(stok))
                 condition = $" AND IT.ITEM_ID = '{stok}' ";
-
-            var itemlist = Select<StokModel>($@"SELECT IT.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,IT.UNIT_ID,UN.UNIT_CODE 
-FROM UYUMSOFT.INVD_ITEM IT INNER JOIN 
-UYUMSOFT.INVD_BWH_ITEM BW ON IT.ITEM_ID = BW.ITEM_ID INNER JOIN UYUMSOFT.INVD_UNIT UN ON IT.UNIT_ID = UN.UNIT_ID 
+            
+            var itemlist = Select<StokModel>($@"SELECT IT.ITEM_ID,IT.ITEM_CODE,IT.ITEM_NAME,IT.UNIT_ID,UN.UNIT_CODE,
+CASE WHEN SALES_PLN.HESAPPLANI_CODE IS NULL THEN TO_CHAR(SALES_ACC.ACC_CODE) ELSE TO_CHAR(SALES_PLN.HESAPPLANI_CODE) END SALES_ACC_CODE,
+CASE WHEN PURCHASE_PLN.HESAPPLANI_CODE IS NULL THEN TO_CHAR(PURCHASE_ACC.ACC_CODE) ELSE TO_CHAR(PURCHASE_PLN.HESAPPLANI_CODE) END PURCHASE_ACC_CODE
+FROM UYUMSOFT.INVD_ITEM IT INNER JOIN UYUMSOFT.INVD_BWH_ITEM BW ON IT.ITEM_ID = BW.ITEM_ID INNER JOIN 
+UYUMSOFT.INVD_UNIT UN ON IT.UNIT_ID = UN.UNIT_ID INNER JOIN INVD_BRANCH_ITEM BT ON BT.ITEM_ID = IT.ITEM_ID AND BT.BRANCH_ID = BW.BRANCH_ID INNER JOIN 
+INVD_ITEM_ACC_INTG INTG ON INTG.I_ACC_INTG_TYPE_CODE_ID = BT.I_ACC_INTG_TYPE_CODE_ID AND INTG.BRANCH_ID = BW.BRANCH_ID AND INTG.CO_ID = BW.CO_ID INNER JOIN
+FIND_ACC PURCHASE_ACC ON INTG.PURCHASE_ACC_ID = PURCHASE_ACC.ACC_ID INNER JOIN FIND_ACC SALES_ACC ON INTG.SALES_ACC_ID = SALES_ACC.ACC_ID LEFT JOIN
+ZFIND_SAGE_HESAPPLANI SALES_PLN ON SALES_ACC.ACC_CODE = SALES_PLN.ACC_CODE LEFT JOIN
+ZFIND_SAGE_HESAPPLANI PURCHASE_PLN ON PURCHASE_ACC.ACC_CODE = PURCHASE_PLN.ACC_CODE
 WHERE BW.BRANCH_ID = '{AppConfig.Default.BranchId}' AND BW.CO_ID = '{AppConfig.Default.CoId}' 
 AND BW.WHOUSE_ID IN ({string.Join(",", whouseIds)}) {condition}
 ORDER BY IT.ITEM_CODE");
+
             if (itemlist != null && itemlist.Count > 0)
             {
                 for (int i = 0; i < itemlist.Count; i++)
                 {
-                    SqlParameter[] parameters = new SqlParameter[5];
+                    SqlParameter[] parameters = new SqlParameter[7];
                     parameters[0] = new SqlParameter("@ITEM_ID", itemlist[i].ITEM_ID);
                     parameters[1] = new SqlParameter("@ITEM_CODE", itemlist[i].ITEM_CODE.GetParamValue());
                     parameters[2] = new SqlParameter("@ITEM_NAME", itemlist[i].ITEM_NAME.GetParamValue());
                     parameters[3] = new SqlParameter("@UNIT_ID", itemlist[i].UNIT_ID);
                     parameters[4] = new SqlParameter("@UNIT_CODE", itemlist[i].UNIT_CODE.GetParamValue());
+                    parameters[5] = new SqlParameter("@ACP_ComptaCPT_CompteG", itemlist[i].PURCHASE_ACC_CODE.GetParamValue());
+                    parameters[6] = new SqlParameter("@ACP_ComptaCPT_CompteA", itemlist[i].SALES_ACC_CODE.GetParamValue());
 
-                    sqlClient.Execute("EXECUTE dbo.ZZ_SP_CREATE_ARTICLE @ITEM_ID, @ITEM_CODE, @ITEM_NAME, @UNIT_ID, @UNIT_CODE", parameters);
+                    sqlClient.Execute("EXECUTE dbo.ZZ_SP_CREATE_ARTICLE @ITEM_ID, @ITEM_CODE, @ITEM_NAME, @UNIT_ID, @UNIT_CODE, @ACP_ComptaCPT_CompteG, @ACP_ComptaCPT_CompteA", parameters);
                 }
             }
 

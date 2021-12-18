@@ -242,6 +242,7 @@ namespace OracleListener.Data
             }
             catch (Exception exc)
             {
+                message = exc.Message;
                 Logger.E(exc);
             }
             finally
@@ -280,6 +281,7 @@ namespace OracleListener.Data
             }
             catch (Exception exc)
             {
+                message = exc.Message;
                 Logger.E(exc);
             }
             finally
@@ -318,6 +320,7 @@ namespace OracleListener.Data
             }
             catch (Exception exc)
             {
+                message = exc.Message;
                 Logger.E(exc);
             }
             finally
@@ -352,6 +355,7 @@ namespace OracleListener.Data
             }
             catch (Exception exc)
             {
+                message = exc.Message;
                 Logger.E(exc);
             }
             finally
