@@ -1,5 +1,4 @@
 ﻿
-
 ALTER PROCEDURE [dbo].[ZZ_SP_CREATE_IRSALIYE_ALIS_DETAY](
 	@DO_Piece varchar(13), -- BELGE NUMARASI
 	@DO_Date datetime, -- BELGE TARIHI

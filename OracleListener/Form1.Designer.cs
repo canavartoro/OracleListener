@@ -194,7 +194,7 @@
             // 
             this.stokKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("stokKartlarıAktarToolStripMenuItem.Image")));
             this.stokKartlarıAktarToolStripMenuItem.Name = "stokKartlarıAktarToolStripMenuItem";
-            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.stokKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.stokKartlarıAktarToolStripMenuItem.Text = "Stok Kartları Aktar";
             this.stokKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.stokKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -202,7 +202,7 @@
             // 
             this.depoKartlarıAktarToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("depoKartlarıAktarToolStripMenuItem.Image")));
             this.depoKartlarıAktarToolStripMenuItem.Name = "depoKartlarıAktarToolStripMenuItem";
-            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.depoKartlarıAktarToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.depoKartlarıAktarToolStripMenuItem.Text = "Depo Kartları Aktar";
             this.depoKartlarıAktarToolStripMenuItem.Click += new System.EventHandler(this.depoKartlarıAktarToolStripMenuItem_Click);
             // 
@@ -210,7 +210,7 @@
             // 
             this.btnalis.Image = ((System.Drawing.Image)(resources.GetObject("btnalis.Image")));
             this.btnalis.Name = "btnalis";
-            this.btnalis.Size = new System.Drawing.Size(212, 26);
+            this.btnalis.Size = new System.Drawing.Size(216, 26);
             this.btnalis.Text = "Alış Irsaliye Aktar";
             this.btnalis.Click += new System.EventHandler(this.btnalis_Click);
             // 
@@ -218,14 +218,14 @@
             // 
             this.btnsatis.Image = ((System.Drawing.Image)(resources.GetObject("btnsatis.Image")));
             this.btnsatis.Name = "btnsatis";
-            this.btnsatis.Size = new System.Drawing.Size(212, 26);
+            this.btnsatis.Size = new System.Drawing.Size(216, 26);
             this.btnsatis.Text = "Satış Irsaliye Aktar";
             this.btnsatis.Click += new System.EventHandler(this.btnsatis_Click);
             // 
             // hesapPlanlarıToolStripMenuItem
             // 
             this.hesapPlanlarıToolStripMenuItem.Name = "hesapPlanlarıToolStripMenuItem";
-            this.hesapPlanlarıToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.hesapPlanlarıToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.hesapPlanlarıToolStripMenuItem.Text = "Hesap Planları";
             this.hesapPlanlarıToolStripMenuItem.Click += new System.EventHandler(this.hesapPlanlarıToolStripMenuItem_Click);
             // 
@@ -333,7 +333,7 @@
             // 
             // txtIrsaliyeNo
             // 
-            this.txtIrsaliyeNo.Location = new System.Drawing.Point(417, 201);
+            this.txtIrsaliyeNo.Location = new System.Drawing.Point(413, 206);
             this.txtIrsaliyeNo.Margin = new System.Windows.Forms.Padding(4);
             this.txtIrsaliyeNo.Name = "txtIrsaliyeNo";
             this.txtIrsaliyeNo.Size = new System.Drawing.Size(137, 22);

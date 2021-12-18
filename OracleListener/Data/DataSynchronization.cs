@@ -1,4 +1,5 @@
-﻿using OracleListener.Utilities;
+﻿using OracleListener.Log;
+using OracleListener.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -182,7 +183,7 @@ AND M.BRANCH_ID = '{AppConfig.Default.BranchId}' AND M.CO_ID = '{AppConfig.Defau
                 {
                     if (!Execute($@"UPDATE ""UYUMSOFT"".""INVT_ITEM_M"" SET ""ZZ_DOCENTETE_ID"" = {cbMarq} WHERE ITEM_M_ID = {irslist[0].ITEM_M_ID}"))
                     {
-                        Log.Logger.E($"İrsaliye bilgisi güncellenemedi! Id:{cbMarq}, Hata: {Message}, Sql:{SqlString}");
+                        Logger.E($"İrsaliye bilgisi güncellenemedi! Id:{cbMarq}, Hata: {Message}, Sql:{SqlString}");
                     }
                 }
 

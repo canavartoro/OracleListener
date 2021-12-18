@@ -226,22 +226,22 @@ ORDER BY WH.WHOUSE_CODE");
             GetDepoList();
             CheckItemMField();
 
-            try
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                using (var data = new DataSynchronization())
-                {
-                    data.SatisIrsaliyeSynchronization("343561");
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.E(ex);
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-            }
+            //try
+            //{
+            //    Cursor.Current = Cursors.WaitCursor;
+            //    using (var data = new DataSynchronization())
+            //    {
+            //        data.SatisIrsaliyeSynchronization("343506");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.E(ex);
+            //}
+            //finally
+            //{
+            //    Cursor.Current = Cursors.Default;
+            //}
 
         }
 
@@ -526,13 +526,9 @@ ORDER BY WH.WHOUSE_CODE");
                     {
                         using (OracleProvider db = new OracleProvider())
                         {
-                            var count = db.ExecuteScalar($"SELECT COUNT(*) ROW_COUNT FROM ALL_TAB_COLUMNS WHERE TABLE_NAME = 'INVT_ITEM_M' AND COLUMN_NAME = 'ZZ_DOCENTETE_ID'");
-                            if (count != null)
-                            {
-                                db.Execute(@"UPDATE INVT_ITEM_M SET ZZ_DOCENTETE_ID = NULL WHERE ITEM_M_ID = " + txtIrsaliyeNo.Text + "");
-                            }
+                            db.Execute(@"UPDATE INVT_ITEM_M SET ZZ_DOCENTETE_ID = NULL WHERE ITEM_M_ID = " + txtIrsaliyeNo.Text + "");
                         }
-                        sync.AlisIrsaliyeSynchronization(txtIrsaliyeNo.Text);
+                        sync.SatisIrsaliyeSynchronization(txtIrsaliyeNo.Text);
                     }
 
                 }
