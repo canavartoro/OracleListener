@@ -131,6 +131,7 @@ ORDER BY WH.WHOUSE_CODE");
         {
             Task.Run(() =>
             {
+                Logger.I($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log");
                 if (!File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log"))
                 {
                     using (OracleProvider db = new OracleProvider())
@@ -144,15 +145,13 @@ ORDER BY WH.WHOUSE_CODE");
                         var tblcount = db.ExecuteScalar($"SELECT COUNT(*) TB_COUNT FROM ALL_TABLES WHERE TABLE_NAME = 'ZFIND_SAGE_HESAPPLANI'");
                         if (tblcount == null || Convert.ToInt32(tblcount) == 0)
                         {
-                            if (db.Execute(@"CREATE SEQUENCE  ""UYUMSOFT"".""ZFIND_SAGE_HESAPPLANI_ID""  MINVALUE 1 MAXVALUE 999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE"))
-                            {
-                                db.Execute(@"CREATE TABLE ""UYUMSOFT"".""ZFIND_SAGE_HESAPPLANI"" (
+                            db.Execute(@"CREATE SEQUENCE  ""UYUMSOFT"".""ZFIND_SAGE_HESAPPLANI_ID""  MINVALUE 1 MAXVALUE 999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE");
+                            db.Execute(@"CREATE TABLE ""UYUMSOFT"".""ZFIND_SAGE_HESAPPLANI"" (
   ""HESAPPLANI_ID"" NUMBER NOT NULL,
   ""ACC_CODE"" VARCHAR2(25) NOT NULL,
   ""HESAPPLANI_CODE"" VARCHAR2(50) NOT NULL,
   PRIMARY KEY(""HESAPPLANI_ID"")
 )");
-                            }
                         }
                     }
                     File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.Templates)}\\CheckItemMField.log", DateTime.Now.ToString());

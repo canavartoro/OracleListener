@@ -128,6 +128,7 @@
     <Content Include="Scripts\INVBRANCH_WHOUSE_TC.sql" />
     <Content Include="Scripts\INVD_ITEM_TC.sql" />
     <Content Include="Scripts\INVD_WHOUSE_TC.sql" />
+    <Content Include="Scripts\izin.sql" />
     <Content Include="Scripts\Oracle_TCPsetupOnly.txt" />
     <Content Include="Scripts\tcpTrigger.txt" />
     <Content Include="Scripts\ZFIND_SAGE_HESAPPLANI.sql" />
