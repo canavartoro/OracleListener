@@ -545,5 +545,35 @@ ORDER BY WH.WHOUSE_CODE");
         {
             new FormHesapPlani().ShowDialog();
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    using (var sync = new DataSynchronization())
+                    {
+                        using (OracleProvider db = new OracleProvider())
+                        {
+                            db.Execute(@"UPDATE INVT_ITEM_M SET ZZ_DOCENTETE_ID = NULL WHERE ITEM_M_ID = " + textBox1.Text + "");
+                        }
+                        sync.AlisIrsaliyeSynchronization(textBox1.Text);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
